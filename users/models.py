@@ -44,7 +44,7 @@ class User(AbstractUser):
     )  # default를 통해 기존에 있던 필드에 새로운 컬럼값을 설정 가능
     birthdate = models.DateField(null=True)
     language = models.CharField(
-        choices=LANGUAGE_CHOICES, max_length=2, null=True, blank=True
+        choices=LANGUAGE_CHOICES, max_length=20, null=True, blank=True
     )
     currency = models.CharField(
         choices=CURRENCY_CHOICES, max_length=3, null=True, blank=True
