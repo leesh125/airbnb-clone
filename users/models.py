@@ -1,4 +1,5 @@
 from email.policy import default
+from black import T
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
@@ -35,18 +36,12 @@ class User(AbstractUser):
         (CURRENCY_KRW, "KRW"),
     )
 
-    avatar = models.ImageField(null=True, blank=True)  # blank : 값을 입력 안해도됨
-    gender = models.CharField(
-        choices=GENDER_CHOICES, max_length=10, null=True, blank=True
-    )
+    avatar = models.ImageField(blank=True)  # blank : 값을 입력 안해도됨
+    gender = models.CharField(choices=GENDER_CHOICES, max_length=10, blank=True)
     bio = models.TextField(
         default="", blank=True
     )  # default를 통해 기존에 있던 필드에 새로운 컬럼값을 설정 가능
-    birthdate = models.DateField(null=True)
-    language = models.CharField(
-        choices=LANGUAGE_CHOICES, max_length=20, null=True, blank=True
-    )
-    currency = models.CharField(
-        choices=CURRENCY_CHOICES, max_length=3, null=True, blank=True
-    )
+    birthdate = models.DateField(blank=True, null=True)
+    language = models.CharField(choices=LANGUAGE_CHOICES, max_length=20, blank=True)
+    currency = models.CharField(choices=CURRENCY_CHOICES, max_length=3, blank=True)
     superhost = models.BooleanField(default=False)

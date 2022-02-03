@@ -38,6 +38,9 @@ DJANGO_APPS = [
     "django.contrib.staticfiles",
 ]
 
+# 다른 사람이 만든 App을 넣기 위해 생성
+THIRD_PARTY_APPS = []
+
 # 새로 생성한 app들은 settings.py에 등록해야 사용가능
 PROJECT_APPS = [
     "users.apps.UsersConfig",
@@ -125,5 +128,5 @@ USE_TZ = True
 
 STATIC_URL = "/static/"
 
-
+# 장고가 제공하는 User 대신 내가 작성한 User를 적용
 AUTH_USER_MODEL = "users.User"
