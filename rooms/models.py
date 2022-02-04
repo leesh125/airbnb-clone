@@ -24,6 +24,30 @@ class AbstractItem(core_models.TimeStampedModel):
 
 class RoomType(AbstractItem):
 
+    """ RoomType Model Definition """
+
+    pass
+
+
+class Amenity(AbstractItem):
+
+    """ Amenity Model Definition """
+
+    class Meta:
+        pass
+
+
+class Facility(AbstractItem):
+
+    """ Facilty Model Definition """
+
+    pass
+
+
+class HouseRule(AbstractItem):
+
+    """ HouseRule Model Definition """
+
     pass
 
 
@@ -47,7 +71,10 @@ class Room(core_models.TimeStampedModel):
     # user model을 외래키로 연결(다대일)
     host = models.ForeignKey(user_models.User, on_delete=models.CASCADE)
     # RoomType을 다대다로
-    room_type = models.ManyToManyField(RoomType, blank=True)
+    room_type = models.ForeignKey(RoomType, on_delete=models.SET_NULL, null=True)
+    amenities = models.ManyToManyField(Amenity)
+    facilities = models.ManyToManyField(Facility)
+    house_rules = models.ManyToManyField(HouseRule)
 
     # Room 객체를 문자열로 어떻게 보이게 할 것인지.
     def __str__(self):
