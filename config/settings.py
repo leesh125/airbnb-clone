@@ -43,7 +43,9 @@ THIRD_PARTY_APPS = []
 
 # 새로 생성한 app들은 settings.py에 등록해야 사용가능
 PROJECT_APPS = [
+    "core.apps.CoreConfig",
     "users.apps.UsersConfig",
+    "rooms.apps.RoomsConfig",
 ]
 
 INSTALLED_APPS = DJANGO_APPS + PROJECT_APPS
