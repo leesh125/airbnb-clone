@@ -1,7 +1,12 @@
 from django.contrib import admin
 from . import models
 
-# Register your models here.
+
+# admin 패널에서 RoomType을 추가하기 위해 작성
+@admin.register(models.RoomType)
+class ItemAdmin(admin.ModelAdmin):
+
+    pass
 
 
 @admin.register(models.Room)

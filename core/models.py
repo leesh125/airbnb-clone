@@ -1,5 +1,6 @@
 from django.db import models
 
+
 # 여러 app에서 쓰이는 공통 모델(데이터)을 담는 core
 class TimeStampedModel(models.Model):
 
