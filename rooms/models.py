@@ -65,7 +65,7 @@ class Photo(core_models.TimeStampedModel):
     file = models.ImageField()
     # Room은 사진을 여러개, 한 사진은 하나의 Room에 해당
     # Room 클래스(객체)를 String으로도 받을 수 있음
-    room = models.ForeignKey("Room", on_delete=CASCADE)
+    room = models.ForeignKey("Room", related_name="photos", on_delete=CASCADE)
 
     def __str__(self):
         return self.caption
@@ -89,12 +89,17 @@ class Room(core_models.TimeStampedModel):
     check_out = models.TimeField()
     instant_book = models.BooleanField(default=False)
     # user model을 외래키로 연결(다대일)
-    host = models.ForeignKey("users.User", on_delete=models.CASCADE)
+    # related_name: 외래키로 연결된 User가 Room을 찾기위한 방법(room_set의 이름 변경)
+    host = models.ForeignKey(
+        "users.User", related_name="rooms", on_delete=models.CASCADE
+    )
     # RoomType을 다대다로
-    room_type = models.ForeignKey("RoomType", on_delete=models.SET_NULL, null=True)
-    amenities = models.ManyToManyField("Amenity", blank=True)
-    facilities = models.ManyToManyField("Facility", blank=True)
-    house_rules = models.ManyToManyField("HouseRule", blank=True)
+    room_type = models.ForeignKey(
+        "RoomType", related_name="rooms", on_delete=models.SET_NULL, null=True
+    )
+    amenities = models.ManyToManyField("Amenity", related_name="rooms", blank=True)
+    facilities = models.ManyToManyField("Facility", related_name="rooms", blank=True)
+    house_rules = models.ManyToManyField("HouseRule", related_name="rooms", blank=True)
 
     # Room 객체를 문자열로 어떻게 보이게 할 것인지.
     def __str__(self):

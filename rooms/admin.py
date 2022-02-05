@@ -97,11 +97,11 @@ class RoomAdmin(admin.ModelAdmin):
 
     # amenity 등등 의 갯수를 세는 custom admin 사용자 정의 함수
     def count_amenities(self, obj):  # self는 현재 클래스, object는 현재 행
-        print(obj.amenities.all())
-        return "potato"
+        # 현재 room 객체가 가지고 있는 amenity의 갯수를 return
+        return obj.amenities.count()
 
     # admin 패널에 사용자 정의 컬럼 이름설정
-    count_amenities.short_description = "hello sexy!"
+    # count_amenities.short_description = "hello sexy!"
 
 
 @admin.register(models.Photo)

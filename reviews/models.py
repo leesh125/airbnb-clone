@@ -14,8 +14,12 @@ class Review(core_models.TimeStampedModel):
     location = models.IntegerField()
     check_in = models.IntegerField()
     value = models.IntegerField()
-    user = models.ForeignKey("users.User", on_delete=CASCADE)
-    room = models.ForeignKey("rooms.Room", on_delete=CASCADE)
+    user = models.ForeignKey(
+        "users.User", related_name="reviews", on_delete=models.CASCADE
+    )
+    room = models.ForeignKey(
+        "rooms.Room", related_name="reviews", on_delete=models.CASCADE
+    )
 
     def __str__(self):
         # Review 객체를 admin 패널에서 "review - Room(객실이름)" 이렇게 표시 가능함
