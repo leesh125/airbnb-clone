@@ -16,7 +16,27 @@ class RoomAdmin(admin.ModelAdmin):
 
     """ Item Admin Definition """
 
-    pass
+    list_display = (
+        "name",
+        "country",
+        "city",
+        "price",
+        "guests",
+        "beds",
+        "bedrooms",
+        "baths",
+        "check_in",
+        "check_out",
+        "instant_book",
+    )
+
+    list_filter = ("instant_book", "city", "country")
+
+    # admin 패널에서 설정한 필드를 검색할 수 있음(와래키의 필드 접근은 __ 로 구분)
+    search_fields = (
+        "city",
+        "^host__username",  # ^ : 시작하는 단어가 같아야함
+    )
 
 
 @admin.register(models.Photo)
