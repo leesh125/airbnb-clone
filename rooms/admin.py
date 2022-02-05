@@ -16,6 +16,43 @@ class RoomAdmin(admin.ModelAdmin):
 
     """ Item Admin Definition """
 
+    fieldsets = (
+        (
+            "Basic Info",  # 전체 필드카테고리 (파란색)
+            {"fields": ("name", "description", "country", "address", "price")},  # 필드들
+        ),
+        (
+            "Times",
+            {"fields": ("check_in", "check_out", "instant_book")},
+        ),
+        (
+            "Spaces",
+            {
+                "fields": (
+                    "guests",
+                    "beds",
+                    "bedrooms",
+                    "baths",
+                )
+            },
+        ),
+        (
+            "More About the Space",
+            {
+                "classes": ("collapse",),  # 필드 내용이 많으면 접을 수 있음
+                "fields": (
+                    "amenities",
+                    "facilities",
+                    "house_rules",
+                ),
+            },
+        ),
+        (
+            "Last Detail",
+            {"fields": ("host",)},
+        ),
+    )
+
     list_display = (
         "name",
         "country",
@@ -30,12 +67,28 @@ class RoomAdmin(admin.ModelAdmin):
         "instant_book",
     )
 
-    list_filter = ("instant_book", "city", "country")
+    list_filter = (
+        "instant_book",
+        "host__superhost",
+        "room_type",
+        "amenities",
+        "facilities",
+        "house_rules",
+        "city",
+        "country",
+    )
 
     # admin 패널에서 설정한 필드를 검색할 수 있음(와래키의 필드 접근은 __ 로 구분)
     search_fields = (
         "city",
         "^host__username",  # ^ : 시작하는 단어가 같아야함
+    )
+
+    # ManyToMany를 깔끔하게 정리하기 위해
+    filter_horizontal = (
+        "amenities",
+        "facilities",
+        "house_rules",
     )
 
 
