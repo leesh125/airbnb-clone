@@ -8,6 +8,12 @@ class ItemAdmin(admin.ModelAdmin):
 
     """ Item Admin Definition """
 
+    list_display = ("name", "used_by")
+
+    # ameni,facit 등등 몇개를 가지고 있는지 알기위해
+    def used_by(self, obj):
+        return obj.rooms.count()
+
     pass
 
 
@@ -66,6 +72,7 @@ class RoomAdmin(admin.ModelAdmin):
         "check_out",
         "instant_book",
         "count_amenities",
+        "count_photos",
     )
 
     # admin 패널에서 해당 필드 기준으로 정렬할 수 있음
@@ -102,6 +109,9 @@ class RoomAdmin(admin.ModelAdmin):
 
     # admin 패널에 사용자 정의 컬럼 이름설정
     # count_amenities.short_description = "hello sexy!"
+
+    def count_photos(self, obj):
+        return obj.photos.count()
 
 
 @admin.register(models.Photo)
