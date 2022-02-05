@@ -65,7 +65,11 @@ class RoomAdmin(admin.ModelAdmin):
         "check_in",
         "check_out",
         "instant_book",
+        "count_amenities",
     )
+
+    # admin 패널에서 해당 필드 기준으로 정렬할 수 있음
+    ordering = ("name", "price", "bedrooms")
 
     list_filter = (
         "instant_book",
@@ -90,6 +94,14 @@ class RoomAdmin(admin.ModelAdmin):
         "facilities",
         "house_rules",
     )
+
+    # amenity 등등 의 갯수를 세는 custom admin 사용자 정의 함수
+    def count_amenities(self, obj):  # self는 현재 클래스, object는 현재 행
+        print(obj.amenities.all())
+        return "potato"
+
+    # admin 패널에 사용자 정의 컬럼 이름설정
+    count_amenities.short_description = "hello sexy!"
 
 
 @admin.register(models.Photo)
