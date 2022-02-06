@@ -1,5 +1,5 @@
-from tkinter import CASCADE
 from django.db import models
+from django.utils import timezone  # python 라이브러리 사용하지 않는이유(애플리케이션 서버의 시간을 알기위해)
 from core import models as core_models
 
 
@@ -31,3 +31,16 @@ class Reservation(core_models.TimeStampedModel):
 
     def __str__(self):
         return f"{self.room} - {self.check_in}"
+
+    # 현재 해당 room에 묶는 사람이 있는지
+    def in_progress(self):
+        now = timezone.now().date()
+        return now > self.check_in and now < self.check_out
+
+    in_progress.boolean = True  # admin 패널에 boolean을 아이콘으로 표시하려고
+
+    def is_finished(self):
+        now = timezone.now().date()
+        return now > self.check_out
+
+    is_finished.boolean = True
