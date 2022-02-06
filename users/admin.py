@@ -25,6 +25,22 @@ class CustomUserAdmin(UserAdmin):
         ),
     )
 
+    list_filter = UserAdmin.list_filter + ("superhost",)
+
+    # admin 패널에서 보일 필드
+    list_display = (
+        "username",
+        "first_name",
+        "last_name",
+        "email",
+        "is_active",
+        "language",
+        "currency",
+        "superhost",
+        "is_staff",
+        "is_superuser",
+    )
+
     ### UserAdmin으로 대체 가능
     # # admin 패널에 list_display로 생성된 필드(컬럼)의 값을 볼 수 있다.
     # list_display = ("username", "email", "gender", "language", "currency", "superhost")

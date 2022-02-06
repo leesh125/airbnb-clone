@@ -73,6 +73,7 @@ class RoomAdmin(admin.ModelAdmin):
         "instant_book",
         "count_amenities",
         "count_photos",
+        "total_rating",
     )
 
     # admin 패널에서 해당 필드 기준으로 정렬할 수 있음

@@ -104,3 +104,14 @@ class Room(core_models.TimeStampedModel):
     # Room 객체를 문자열로 어떻게 보이게 할 것인지.
     def __str__(self):
         return self.name
+
+    def total_rating(self):
+        # review 모델에 있는 room(foreign key로 연결) 필드에서 reviews를 읽어옴
+        all_reviews = self.reviews.all()
+        try:
+            all_ratings = 0
+            for review in all_reviews:
+                all_ratings += review.rating_average()
+            return all_ratings / len(all_reviews)
+        except ZeroDivisionError:  # 리뷰가 하나도 없을때의 예외처리
+            return 0
