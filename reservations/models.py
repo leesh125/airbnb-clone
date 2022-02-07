@@ -44,3 +44,8 @@ class Reservation(core_models.TimeStampedModel):
         return now > self.check_out
 
     is_finished.boolean = True
+
+
+# 현재 시간 갖고오는 함수
+def get_now_date():
+    return timezone.now().date()
