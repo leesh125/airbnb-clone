@@ -62,7 +62,9 @@ class Photo(core_models.TimeStampedModel):
     """ Photo Model Definition """
 
     caption = models.CharField(max_length=80)
-    file = models.ImageField(upload_to="room_photos") # uploads 폴더안에 어떤 폴더에다가 photo를 업로드 할 것인지
+    file = models.ImageField(
+        upload_to="room_photos"
+    )  # uploads 폴더안에 어떤 폴더에다가 photo를 업로드 할 것인지
     # Room은 사진을 여러개, 한 사진은 하나의 Room에 해당
     # Room 클래스(객체)를 String으로도 받을 수 있음
     room = models.ForeignKey("Room", related_name="photos", on_delete=CASCADE)
@@ -104,6 +106,11 @@ class Room(core_models.TimeStampedModel):
     # Room 객체를 문자열로 어떻게 보이게 할 것인지.
     def __str__(self):
         return self.name
+
+    # admin, view 모든 곳에서 save시에 수행됨
+    def save(self, *args, **kwargs):
+        self.city = self.city.title()  # city의 단어 앞글자만 대문자로
+        super().save(*args, **kwargs)  # 진짜 save(저장) method 호출
 
     def total_rating(self):
         # review 모델에 있는 room(foreign key로 연결) 필드에서 reviews를 읽어옴

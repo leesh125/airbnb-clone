@@ -34,7 +34,9 @@ class RoomAdmin(admin.ModelAdmin):
     fieldsets = (
         (
             "Basic Info",  # 전체 필드카테고리 (파란색)
-            {"fields": ("name", "description", "country", "address", "price")},  # 필드들
+            {
+                "fields": ("name", "description", "country", "city", "address", "price")
+            },  # 필드들
         ),
         (
             "Times",
@@ -115,6 +117,12 @@ class RoomAdmin(admin.ModelAdmin):
         "facilities",
         "house_rules",
     )
+
+    # admin에서 save시에 시행할 메서드
+    
+    # def save_model(self, request, obj, form, change):
+    #     print(obj, change, form)
+    #     super().save_model(request, obj, form, change)
 
     # amenity 등등 의 갯수를 세는 custom admin 사용자 정의 함수
     def count_amenities(self, obj):  # self는 현재 클래스, object는 현재 행
