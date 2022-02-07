@@ -15,7 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf import settings  # settings.py import
+from django.conf.urls.static import static
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path("admin/", admin.site.urls),
 ]
+
+# 내가 개발모드라면(Not production)
+if settings.DEBUG:  # static 함수를 보면 (url, 사진저장폴더경로)
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

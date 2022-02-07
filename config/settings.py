@@ -137,4 +137,8 @@ STATIC_URL = "/static/"
 AUTH_USER_MODEL = "users.User"
 
 # 장고에게 어디에다 우리가 업로드한 파일들을 써야할지 말해주는 곳
+# MEDIA_ROOT 를 등록하여 사진이 담겨있는 uploads 파일의 위치를 등록한다.((Django는 이제 사진들이 어디에 저장되고있는지는 알수있다)
 MEDIA_ROOT = os.path.join(BASE_DIR, "uploads")
+
+# MEDIA_ROOT에서 온 media를 다뤄준다.(호스트 다음으로 /media 경로 시작)
+MEDIA_URL = "/media/"
