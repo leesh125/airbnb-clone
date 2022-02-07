@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.utils.html import mark_safe
 from . import models
 
 
@@ -118,6 +119,12 @@ class RoomAdmin(admin.ModelAdmin):
 @admin.register(models.Photo)
 class PhotoAdmin(admin.ModelAdmin):
 
-    """ """
+    """ Photo Admin Definition """
 
-    pass
+    list_display = ("__str__", "get_thumbnail")
+
+    def get_thumbnail(self, obj):  # obj: Photo model 객체
+        # 현재 행의 photo객체의 파일 url을 얻은 후 img태그로 출력(보안 기능으로 막혀있지만 mark_safe로 html 태그 작성 가능)
+        return mark_safe(f'<img width="50px" src="{obj.file.url}" />')
+
+    get_thumbnail.short_decription = "Thumbnail"
