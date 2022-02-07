@@ -18,10 +18,18 @@ class ItemAdmin(admin.ModelAdmin):
     pass
 
 
+# Room Admin 안에 Photo admin 추가
+class PhotoInline(admin.TabularInline):
+
+    model = models.Photo
+
+
 @admin.register(models.Room)
 class RoomAdmin(admin.ModelAdmin):
 
-    """ Item Admin Definition """
+    """ Room Admin Definition """
+
+    inlines = (PhotoInline,)  # photo admin 추가
 
     fieldsets = (
         (
@@ -90,6 +98,10 @@ class RoomAdmin(admin.ModelAdmin):
         "city",
         "country",
     )
+
+    # 유저가 너무 많아진 경우 host를 선택하기 힘들어지며,
+    # filter를 적용하여 적합한 host를 찾기
+    raw_id_fields = ("host",)
 
     # admin 패널에서 설정한 필드를 검색할 수 있음(와래키의 필드 접근은 __ 로 구분)
     search_fields = (
