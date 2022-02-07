@@ -38,7 +38,7 @@ DJANGO_APPS = [
 ]
 
 # 다른 사람이 만든 App을 넣기 위해 생성
-THIRD_PARTY_APPS = ["django_countries"]
+THIRD_PARTY_APPS = ["django_countries", "django_seed"]
 
 # 새로 생성한 app들은 settings.py에 등록해야 사용가능
 PROJECT_APPS = [

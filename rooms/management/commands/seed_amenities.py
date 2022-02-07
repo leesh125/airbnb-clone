@@ -5,7 +5,7 @@ from rooms import models as room_models
 # handle() 메소드를 실행한다.
 class Command(BaseCommand):
 
-    help = "i will help you"
+    help = "This command creates amenities"
 
     """
     def add_arguments(self, parser):
