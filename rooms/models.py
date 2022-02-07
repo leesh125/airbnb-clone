@@ -119,6 +119,6 @@ class Room(core_models.TimeStampedModel):
             all_ratings = 0
             for review in all_reviews:
                 all_ratings += review.rating_average()
-            return all_ratings / len(all_reviews)
+            return round(all_ratings / len(all_reviews), 2)
         except ZeroDivisionError:  # 리뷰가 하나도 없을때의 예외처리
             return 0

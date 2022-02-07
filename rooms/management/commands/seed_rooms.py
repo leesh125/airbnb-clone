@@ -9,13 +9,13 @@ from users import models as user_models
 # handle() 메소드를 실행한다.
 class Command(BaseCommand):
 
-    help = "This command creates users"
+    help = "This command creates rooms"
 
     # 클래스를 실행할 때 사용할 수 있는 인자값 설정
     def add_arguments(self, parser):
 
         parser.add_argument(
-            "--number", default=2, type=int, help="how many users do you want to create"
+            "--number", default=2, type=int, help="how many rooms do you want to create"
         )
 
     # 클래스 실행시 인자값을 설정
@@ -40,9 +40,9 @@ class Command(BaseCommand):
             },
         )
         # room을 생성하면 db에 저장될때 pk값도 저장됨
-        created_photos = seeder.execute()
+        created_rooms = seeder.execute()
         # flatten을 사용하여 리스트안에 값을 가져옴(list 하나를 벗김)
-        created_clean = flatten(list(created_photos.values()))
+        created_clean = flatten(list(created_rooms.values()))
         amenities = room_models.Amenity.objects.all()
         facilities = room_models.Facility.objects.all()
         rules = room_models.HouseRule.objects.all()
