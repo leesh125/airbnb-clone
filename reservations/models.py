@@ -35,7 +35,7 @@ class Reservation(core_models.TimeStampedModel):
     # 현재 해당 room에 묶는 사람이 있는지
     def in_progress(self):
         now = timezone.now().date()
-        return now > self.check_in and now < self.check_out
+        return now >= self.check_in and now <= self.check_out
 
     in_progress.boolean = True  # admin 패널에 boolean을 아이콘으로 표시하려고
 
