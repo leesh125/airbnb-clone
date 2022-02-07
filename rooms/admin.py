@@ -35,7 +35,15 @@ class RoomAdmin(admin.ModelAdmin):
         (
             "Basic Info",  # 전체 필드카테고리 (파란색)
             {
-                "fields": ("name", "description", "country", "city", "address", "price")
+                "fields": (
+                    "name",
+                    "description",
+                    "country",
+                    "city",
+                    "address",
+                    "price",
+                    "room_type",
+                )
             },  # 필드들
         ),
         (
@@ -107,7 +115,7 @@ class RoomAdmin(admin.ModelAdmin):
 
     # admin 패널에서 설정한 필드를 검색할 수 있음(와래키의 필드 접근은 __ 로 구분)
     search_fields = (
-        "city",
+        "=city",
         "^host__username",  # ^ : 시작하는 단어가 같아야함
     )
 
@@ -130,7 +138,7 @@ class RoomAdmin(admin.ModelAdmin):
         return obj.amenities.count()
 
     # admin 패널에 사용자 정의 컬럼 이름설정
-    # count_amenities.short_description = "hello sexy!"
+    count_amenities.short_description = "Amenity Count"
 
     def count_photos(self, obj):
         return obj.photos.count()

@@ -28,7 +28,7 @@ class Command(BaseCommand):
             room_models.Room,
             number,
             {
-                "name": lambda x: seeder.faker.company(),
+                "name": lambda x: seeder.faker.address(),
                 # room의 host를 user에서 랜덤하게 배정
                 "host": lambda x: random.choice(all_users),
                 "room_type": lambda x: random.choice(room_types),
@@ -40,16 +40,31 @@ class Command(BaseCommand):
             },
         )
         # room을 생성하면 db에 저장될때 pk값도 저장됨
-        created_rooms = seeder.execute()
+        created_photos = seeder.execute()
         # flatten을 사용하여 리스트안에 값을 가져옴(list 하나를 벗김)
-        created_clean = flatten(list(created_rooms.values()))
+        created_clean = flatten(list(created_photos.values()))
+        amenities = room_models.Amenity.objects.all()
+        facilities = room_models.Facility.objects.all()
+        rules = room_models.HouseRule.objects.all()
         for pk in created_clean:
             room = room_models.Room.objects.get(pk=pk)  # pk로 해당 pk의 room 찾기
-            # 3 ~ 10 or 17개의 photo 적용
-            for i in range(3, random.randint(10, 17)):
+            # 3 ~ 10 or 30개의 photo 적용
+            for i in range(3, random.randint(10, 30)):
                 room_models.Photo.objects.create(
                     caption=seeder.faker.sentence(),
                     room=room,
-                    file=f"/room_photos/{random.randint(1, 31)}.webp",
+                    file=f"room_photos/{random.randint(1, 31)}.webp",
                 )
+            for a in amenities:
+                magic_number = random.randint(0, 15)
+                if magic_number % 2 == 0:
+                    room.amenities.add(a)  # 다대다 필드에서 추가하는 방법(add)
+            for f in facilities:
+                magic_number = random.randint(0, 15)
+                if magic_number % 2 == 0:
+                    room.facilities.add(f)
+            for r in rules:
+                magic_number = random.randint(0, 15)
+                if magic_number % 2 == 0:
+                    room.house_rules.add(r)
         self.stdout.write(self.style.SUCCESS(f"{number} Rooms created!"))
