@@ -12,7 +12,23 @@ class Conversation(core_models.TimeStampedModel):
     )
 
     def __str__(self):
-        return str(self.created)  # dateField여서 객체가 보이러면 str으로 해야함
+        usernames = []
+        for user in self.participants.all():
+            usernames.append(user.username)
+
+        return ", ".join(usernames)  # 대화 참여자들을 문자열로 반환
+
+    def count_messages(self):
+        # Conversation 클래스는 messages가 없다
+        # 하지만 Message는 Conversation과 외래키로 연결되어있다.
+        return self.messages.count()
+
+    count_messages.short_description = "Number of Messages"
+
+    def count_participants(self):
+        return self.participants.count()
+
+    count_participants.short_description = "Number of Participants"
 
 
 class Message(core_models.TimeStampedModel):
