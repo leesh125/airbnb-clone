@@ -1,5 +1,3 @@
-from email.policy import default
-from black import T
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
@@ -36,7 +34,7 @@ class User(AbstractUser):
         (CURRENCY_KRW, "KRW"),
     )
 
-    avatar = models.ImageField(blank=True)  # blank : 값을 입력 안해도됨
+    avatar = models.ImageField(upload_to="avatars", blank=True)  # blank : 값을 입력 안해도됨
     gender = models.CharField(choices=GENDER_CHOICES, max_length=10, blank=True)
     bio = models.TextField(
         default="", blank=True
