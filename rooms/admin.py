@@ -119,7 +119,7 @@ class RoomAdmin(admin.ModelAdmin):
     )
 
     # admin에서 save시에 시행할 메서드
-    
+
     # def save_model(self, request, obj, form, change):
     #     print(obj, change, form)
     #     super().save_model(request, obj, form, change)
@@ -134,6 +134,8 @@ class RoomAdmin(admin.ModelAdmin):
 
     def count_photos(self, obj):
         return obj.photos.count()
+
+    count_photos.short_description = "Photo Count"
 
 
 @admin.register(models.Photo)
