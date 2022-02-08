@@ -68,7 +68,7 @@ ROOT_URLCONF = "config.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [os.path.join(BASE_DIR, "templates")],  # 템플릿이 어디에 있는지 장고에게 알려줌
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
