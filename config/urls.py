@@ -14,11 +14,20 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from django.conf import settings  # settings.py import
 from django.conf.urls.static import static
 
+""" 
+   namespace란?
+   예를 들어 room 이라는 app에도 core 라는 view가 있고,
+   user 라는 app에도 core 라는 view가 있으면 이를 어떻게 구분 할 것 인가?
+   => namespace를 사용하여 구별해주면 된다.
+   room:core 와 user:core 로 구별하는 것 이다
+"""
 urlpatterns = [
+    # / 으로 들어온 url에 관한 처리를 core/urls.py 에서 찾아 mapping 하라는 의미 이다.
+    path("", include("core.urls", namespace="core")),
     path("admin/", admin.site.urls),
 ]
 
