@@ -1,5 +1,5 @@
-from django.utils import timezone
 from django.views.generic import ListView
+from django.shortcuts import render
 from . import models
 
 
@@ -14,8 +14,7 @@ class HomeView(ListView):
     ordering = "created"
     context_object_name = "rooms"  # 불러오는 model object의 이름 설정
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        now = timezone.now()
-        context["now"] = now  # Class Based View에 사용자 context 추가하기
-        return context
+
+def room_detail(request, pk):  # 요청 파라미터로부터 온 pk도 같이 넘겨받음
+
+    return render(request, "rooms/detail.html")
