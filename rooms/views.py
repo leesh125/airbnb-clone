@@ -1,5 +1,5 @@
 from django.views.generic import ListView, DetailView
-from django.http import Http404
+from django.shortcuts import render
 from . import models
 
 
@@ -32,3 +32,9 @@ class RoomDetail(DetailView):  # DetailView는 기본적으로 url argument로 p
 #         return render(request, "rooms/detail.html", {"room": room})
 #     except models.Room.DoesNotExist:  # 매개변수로 넘어온 pk에 해당되는 room 객체가 없으면
 #         raise Http404()  # 404 page 띄우기
+
+
+def search(request):
+    city = request.GET.get("city")  # 요청 파라미터 city의 값을 읽어옴
+    city = str.capitalize(city)
+    return render(request, "rooms/search.html", {"city": city})
