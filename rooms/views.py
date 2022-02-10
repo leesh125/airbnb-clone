@@ -76,8 +76,25 @@ def search(request):
         "facilities": facilities,
     }
 
+    # 쿼리셋을 필터링
+    filter_args = {}
+
+    if city != "Anywhere":  # Anywhere가 아닌 어떤 도시가 입력되었다면
+        filter_args[
+            "city__startswith"
+        ] = city  # filter 요소에 입력된 문자열로 시작되는 도시를 필터링할 수 있게끔
+
+    filter_args["country"] = country  # 선택된 국가로 필터링
+
+    if room_type != 0:  # room_type이 Any Kind(pk=0)이 아니라면
+        filter_args[
+            "room_type__pk"
+        ] = room_type  # room_type의 pk가 요청 파라미터로 넘어온 pk와 같은지 필터
+
+    rooms = models.Room.objects.filter(**filter_args)  # room 객체에 필터링
+
     return render(
         request,
         "rooms/search.html",
-        {**form, **choices},
+        {**form, **choices, "rooms": rooms},
     )
