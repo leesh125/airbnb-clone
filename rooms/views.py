@@ -1,5 +1,6 @@
 from django.views.generic import ListView
-from django.shortcuts import render
+from django.urls import reverse
+from django.shortcuts import redirect, render
 from . import models
 
 
@@ -16,5 +17,8 @@ class HomeView(ListView):
 
 
 def room_detail(request, pk):  # 요청 파라미터로부터 온 pk도 같이 넘겨받음
-
-    return render(request, "rooms/detail.html")
+    try:
+        room = models.Room.objects.get(pk=pk)  # 매개변수로 넘어온 pk의 room 객체 가져오기
+        return render(request, "rooms/detail.html", {"room": room})
+    except models.Room.DoesNotExist:
+        return redirect(reverse("core:home"))  # core:home url을 반환해줌
