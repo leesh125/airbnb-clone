@@ -38,9 +38,23 @@ class RoomDetail(DetailView):  # DetailView는 기본적으로 url argument로 p
 def search(request):
     city = request.GET.get("city", "Anywhere")  # 요청 파라미터 city의 값을 읽어옴
     city = str.capitalize(city)
+    country = request.GET.get("country", "KR")  # 요청 파라미터 country의 값을 읽어옴
+    room_type = int(request.GET.get("room_type", 0))  # 요청 파라미터 room_type의 값을 읽어옴
     room_types = models.RoomType.objects.all()
+
+    form = {  # 요청 파라미터로 넘어온 값
+        "city": city,
+        "s_room_type": room_type,
+        "s_country": country,
+    }
+
+    choices = {
+        "countries": countries,
+        "room_types": room_types,
+    }
+
     return render(
         request,
         "rooms/search.html",
-        {"city": city, "countries": countries, "room_types": room_types},
+        {**form, **choices},
     )
