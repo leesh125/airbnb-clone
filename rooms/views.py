@@ -45,8 +45,8 @@ def search(request):
     bedrooms = int(request.GET.get("bedrooms", 0))
     beds = int(request.GET.get("beds", 0))
     baths = int(request.GET.get("baths", 0))
-    instant = request.GET.get("instant", False)
-    super_host = request.GET.get("super_host", False)
+    instant = bool(request.GET.get("instant", False))
+    superhost = bool(request.GET.get("superhost", False))
     s_amenities = request.GET.getlist("amenities")  # getlist로 여러개 체크된 값의 id를 가져옴
     s_facilities = request.GET.getlist("facilities")  # getlist로 여러개 체크된 값의 id를 가져옴
 
@@ -62,7 +62,7 @@ def search(request):
         "s_amenities": s_amenities,
         "s_facilities": s_facilities,
         "instant": instant,
-        "super_host": super_host,
+        "superhost": superhost,
     }
 
     room_types = models.RoomType.objects.all()
@@ -87,9 +87,38 @@ def search(request):
     filter_args["country"] = country  # 선택된 국가로 필터링
 
     if room_type != 0:  # room_type이 Any Kind(pk=0)이 아니라면
-        filter_args[
-            "room_type__pk"
-        ] = room_type  # room_type의 pk가 요청 파라미터로 넘어온 pk와 같은지 필터
+        # room_type의 pk가 요청 파라미터로 넘어온 pk와 같은지 필터
+        filter_args["room_type__pk"] = room_type
+
+    if price != 0:  # 가격이 입력되었다면
+        filter_args["price_lte"] = price  # 파라미터로 넘어온 가격보다 작은 가격 필터링
+
+    if guests != 0:  # 손님 수가 입력되었다면
+        filter_args["guests_gte"] = guests  # 파라미터로 넘어온 손님 수보다 많은 손님을 수용하는 room 필터
+
+    if bedrooms != 0:
+        filter_args["bedrooms_gte"] = bedrooms
+
+    if beds != 0:
+        filter_args["beds_gte"] = beds
+
+    if baths != 0:
+        filter_args["baths_gte"] = baths
+
+    if instant is True:
+        filter_args["instant_book"] = True
+
+    if superhost is True:
+        filter_args["host__superhost"] = True
+
+    # 선택된 amenity가 있으면
+    if len(s_amenities) > 0:
+        for s_amenity in s_amenities:
+            filter_args["amenities__pk"] = int(s_amenity)  # 선택된 amenity의 pk를 filter
+
+    if len(s_facilities) > 0:
+        for s_facility in s_facilities:
+            filter_args["facilities__pk"] = int(s_facility)
 
     rooms = models.Room.objects.filter(**filter_args)  # room 객체에 필터링
 
