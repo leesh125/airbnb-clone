@@ -3,11 +3,10 @@
 # 1. django와 관련된 것들
 # 2. 외부 패키지
 # 3. 내가 만든 패키지
-from tkinter import CASCADE
 from django.db import models
+from django.urls import reverse  # 지정한 url name을 return 하기위해
 from django_countries.fields import CountryField
 from core import models as core_models
-from users import models as user_models
 
 
 class AbstractItem(core_models.TimeStampedModel):
@@ -111,6 +110,11 @@ class Room(core_models.TimeStampedModel):
     def save(self, *args, **kwargs):
         self.city = self.city.title()  # city의 단어 앞글자만 대문자로
         super().save(*args, **kwargs)  # 진짜 save(저장) method 호출
+
+    # admon 패널에 해당 room 객체가 어떻게 화면에 보이는지
+    def get_absolute_url(self):
+        # urlname으로 지정한 곳으로 이동(kwargs: 매개변수 포함)
+        return reverse("rooms:detail", kwargs={"pk": self.pk})
 
     def total_rating(self):
         # review 모델에 있는 room(foreign key로 연결) 필드에서 reviews를 읽어옴
