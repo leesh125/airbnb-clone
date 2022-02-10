@@ -45,8 +45,10 @@ def search(request):
     bedrooms = int(request.GET.get("bedrooms", 0))
     beds = int(request.GET.get("beds", 0))
     baths = int(request.GET.get("baths", 0))
-    s_amenities = request.GET.get("amenities")
-    s_facilities = request.GET.get("facilities")
+    instant = request.GET.get("instant", False)
+    super_host = request.GET.get("super_host", False)
+    s_amenities = request.GET.getlist("amenities")  # getlist로 여러개 체크된 값의 id를 가져옴
+    s_facilities = request.GET.getlist("facilities")  # getlist로 여러개 체크된 값의 id를 가져옴
 
     form = {  # 요청 파라미터로 넘어온 값
         "city": city,
@@ -57,6 +59,10 @@ def search(request):
         "bedrooms": bedrooms,
         "beds": beds,
         "baths": baths,
+        "s_amenities": s_amenities,
+        "s_facilities": s_facilities,
+        "instant": instant,
+        "super_host": super_host,
     }
 
     room_types = models.RoomType.objects.all()
