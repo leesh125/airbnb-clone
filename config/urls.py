@@ -22,9 +22,8 @@ from django.conf.urls.static import static
 urlpatterns = [
     # / 으로 들어온 url에 관한 처리를 core/urls.py 에서 찾아 mapping 하라는 의미 이다.
     path("", include("core.urls", namespace="core")),
-    path(
-        "rooms/", include("rooms.urls", namespace="rooms")
-    ),  # rooms/의 요청이 오면 room.urls.py로 넘어감
+    path("rooms/", include("rooms.urls", namespace="rooms")),
+    path("users/", include("users.urls", namespace="users")),
     path("admin/", admin.site.urls),
 ]
 
