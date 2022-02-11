@@ -33,3 +33,7 @@ class SingUpView(FormView):
     template_name = "users/signup.html"
     form_class = forms.SignUpForm
     success_url = reverse_lazy("core:home")
+
+    def form_valid(self, form):  # form이 에러없이 유효하다면
+        form.save()  # user를 생성하는 메소드
+        return super().form_valid(form)
