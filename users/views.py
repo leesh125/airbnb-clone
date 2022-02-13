@@ -122,6 +122,7 @@ def github_callback(request):
                             username=email,
                             bio=bio,
                             login_method=models.User.LOGIN_GITHUB,
+                            email_verified=True,
                         )
                         user.set_unusable_password()
                         user.save()
@@ -133,14 +134,15 @@ def github_callback(request):
             raise GithubException()
     except GithubException:
         # send error message
-        print("!@#!@#!")
         return redirect(reverse("users:login"))
 
 
 # kakao 로그인 요청
 def kakao_login(request):
-    client_id = os.environ.get("KAKAO_ID")
-    redirect_uri = "http://127.0.0.1:8000/users/login/kakao/callback"
+    client_id = os.environ.get("KAKAO_ID")  # 앱 REST API 키
+    redirect_uri = (
+        "http://127.0.0.1:8000/users/login/kakao/callback"  # 인가 코드가 리다이렉트될 URI
+    )
     return redirect(
         f"https://kauth.kakao.com/oauth/authorize?client_id={client_id}&redirect_uri={redirect_uri}&response_type=code"
     )
@@ -152,10 +154,49 @@ class KakaoException(Exception):
 
 def kakao_callback(request):
     try:
-        code = request.GET.get("code")
-        client_id = os.environ.get("KAKAO_ID")
-        token_request = requests.get(
-            f"https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id={client_id}"
+        code = request.GET.get("code")  # 인가 코드 받기 요청으로 얻은 인가 코드
+        client_id = os.environ.get("KAKAO_ID")  # 	앱 REST API 키
+        redirect_uri = (
+            "http://127.0.0.1:8000/users/login/kakao/callback"  # 인가 코드가 리다이렉트된 URI
         )
+        token_request = requests.get(
+            f"https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id={client_id}&redirect_uri={redirect_uri}&code={code}"
+        )
+        token_json = token_request.json()  # 토큰 json 얻기
+        error = token_json.get("error", None)
+        if error is not None:  # 에러가 발생했다면 예외
+            raise KakaoException()
+        access_token = token_json.get("access_token")  # access_token 값 얻기
+        profile_request = requests.get(  # 액세스 토큰으로 kakao user 정보 얻기
+            "https://kapi.kakao.com/v2/user/me",
+            headers={"Authorization": f"Bearer {access_token}"},
+        )
+        profile_json = profile_request.json()  # kakao user의 profile을 json 형식으로 받음
+        email = profile_json.get("kakao_account").get("email")
+        if email is None:
+            raise KakaoException()
+        properties = profile_json.get("properties")  # json에서 사용자의 정보 얻기
+        nickname = properties.get("nickname")
+        profile_image = (
+            profile_json.get("kakao_account").get("profile").get("profile_image_url")
+        )
+        try:
+            # 이미 카카오 id의 email과 같은 아이디가 db에 있는지
+            user = models.User.objects.get(email=email)
+            # 해당 user(중복 email)의 login_method가 kakao로 로그인 되어있는게 아니라면 예외
+            if user.login_method != models.User.LOGIN_KAKAO:
+                raise KakaoException()
+        except models.User.DoesNotExist:  # 카카오로 로그인한 email이 db에 없다면
+            user = models.User.objects.create(  # 주어진 정보로 user 생성
+                email=email,
+                username=email,
+                first_name=nickname,
+                login_method=models.User.LOGIN_KAKAO,
+                email_verified=True,
+            )
+            user.set_unusable_password()
+            user.save()
+        login(request, user)
+        return redirect(reverse("core:home"))
     except KakaoException:
         return redirect(reverse("users:login"))
