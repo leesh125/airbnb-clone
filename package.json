@@ -1,0 +1,23 @@
+{
+  "name": "airbnb-clone",
+  "version": "1.0.0",
+  "description": "Cloning Airbnb with Python, Django and tailwindCSS",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leesh125/airbnb-clone.git"
+  },
+  "scripts": {
+    "css": "gulp"
+  },
+  "homepage": "https://github.com/leesh125/airbnb-clone#readme",
+  "devDependencies": {
+    "autoprefixer": "^9.7.0",
+    "gulp": "^4.0.2",
+    "gulp-csso": "^3.0.1",
+    "gulp-postcss": "^8.0.0",
+    "gulp-sass": "^5.1.0",
+    "node-sass": "^7.0.1",
+    "sass": "^1.49.7",
+    "tailwindcss": "^1.1.3"
+  }
+}
