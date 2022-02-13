@@ -36,4 +36,8 @@ class SingUpView(FormView):
 
     def form_valid(self, form):  # form이 에러없이 유효하다면
         form.save()  # user를 생성하는 메소드
+        email = form.cleaned_data.get("email")
+        password = form.cleaned_data.get("password")
+        user = authenticate(self.request, username=email, password=password)
+        user.verify_email()
         return super().form_valid(form)
