@@ -1,3 +1,5 @@
+import os
+import requests
 from django.views import View
 from django.views.generic import FormView
 from django.urls import reverse_lazy
@@ -61,3 +63,30 @@ def complete_verification(request, key):
         # to do: add error message
         pass
     return redirect(reverse("core:home"))
+
+
+# 로그인 역할을 github로 보냄
+def github_login(request):
+    client_id = os.environ.get("GH_ID")
+    redirect_uri = "http://127.0.0.1:8000/users/login/github/callback"
+
+    return redirect(  # github 인증을 요청하기 위해 request
+        f"https://github.com/login/oauth/authorize?client_id={client_id}&redirect_uri={redirect_uri}&scope=read:user"
+    )
+
+
+# github에서 인증이 끝난 후 호출
+def github_callback(request):
+    client_id = os.environ.get("GH_ID")
+    client_secret = os.environ.get("GH_SECRET")
+    # redirect 시에 github에서의 요청 파라미터
+    code = request.GET.get("code", None)
+    if code is not None:
+        # github에 request를 보내서 code를 가지고 access_token을 얻는다
+        request = requests.post(
+            f"https://github.com/login/oauth/access_token?client_id={client_id}&client_secret={client_secret}&code={code}",
+            headers={"Accept": "application/json"},
+        )
+        print(request.json())
+    else:
+        return redirect(reverse("core:home"))
