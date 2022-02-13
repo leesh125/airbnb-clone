@@ -19,6 +19,11 @@ class LoginView(FormView):
         email = form.cleaned_data.get("email")
         password = form.cleaned_data.get("password")
         user = authenticate(self.request, username=email, password=password)
+        # 이메일 인증 한 사람만 로그인 하게끔(custom)
+        # check_user = models.User.objects.get(username=user)
+
+        # if check_user.email_verified == False:
+        #     print("please verify your email")
         if user is not None:
             login(self.request, user)
         return super().form_valid(form)
