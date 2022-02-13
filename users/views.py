@@ -3,7 +3,7 @@ from django.views.generic import FormView
 from django.urls import reverse_lazy
 from django.shortcuts import render, redirect, reverse
 from django.contrib.auth import authenticate, login, logout
-from . import forms
+from . import forms, models
 
 
 class LoginView(FormView):
@@ -41,3 +41,18 @@ class SingUpView(FormView):
         user = authenticate(self.request, username=email, password=password)
         user.verify_email()
         return super().form_valid(form)
+
+
+# 이메일 인증을 완료한 후 페이지
+def complete_verification(request, key):
+    try:
+        # 해당 secret key 메일을 받은 user를 찾는다
+        user = models.User.objects.get(email_secret=key)
+        user.email_verified = True
+        user.email_secret = ""  # 이메일 인증이 끝나면 secret 초기화
+        user.save()
+        # to do: add success message
+    except models.User.DoesNotExist:
+        # to do: add error message
+        pass
+    return redirect(reverse("core:home"))

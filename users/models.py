@@ -76,4 +76,5 @@ class User(AbstractUser):
                 fail_silently=False,
                 html_message=html_message,  # message에 html을 적용
             )
+            self.save()  # 해당 user의 email_secret 필드의 값을 저장
         return
