@@ -47,3 +47,11 @@ class User(AbstractUser):
         choices=CURRENCY_CHOICES, max_length=3, blank=True, default=CURRENCY_KRW
     )
     superhost = models.BooleanField(default=False)
+    email_confirmed = models.BooleanField(default=False)
+    # 이메일 인증을 위해 랜덤 문자열 링크를 보내고 해당 유저가 그것을 클릭하면 이 문자열을 가진 user를 찾는다
+    email_secret = models.CharField(max_length=120, default="", blank=True)
+
+    # 이메일 인증을 view가 아닌 model에 둔 이유
+    # : 이메일을 수정할 경우 다시 인증을 해야하기에
+    def verify_email(self):
+        pass

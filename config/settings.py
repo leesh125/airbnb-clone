@@ -142,3 +142,10 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "uploads")
 
 # MEDIA_ROOT에서 온 media를 다뤄준다.(호스트 다음으로 /media 경로 시작)
 MEDIA_URL = "/media/"
+
+
+# Email Configuration
+EMAIL_HOST = "smtp.mailgun.org"
+EMAIL_PORT = "587"
+EMAIL_HOST_USER = os.environ.get("MAILGUN_USERNAME")
+EMAIL_HOST_PASSWORD = os.environ.get("MAILGUN_PASSWORD")

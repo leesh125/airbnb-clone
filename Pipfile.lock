@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "c42767b41891e18b271b550157ef89ae318e93f20f87b2550d366538a2b3c582"
+            "sha256": "2d211ac3f0d9ef8c26cfea5d4ab94238395effdebc238d0d6133e4a008c4b179"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -62,6 +62,14 @@
             "index": "pypi",
             "version": "==7.2.1"
         },
+        "django-dotenv": {
+            "hashes": [
+                "sha256:3812bb0f4876cf31f902aad140f0645e120e51ee30eb7c40c22050f58a0e4adb",
+                "sha256:a9b1b40a70bd321acd231926acedb9bd2c5e873e33a1873b34a7276d196a765e"
+            ],
+            "index": "pypi",
+            "version": "==1.4.2"
+        },
         "django-seed": {
             "hashes": [
                 "sha256:93e65d2c10449c464b83e9031be02763ec10e786aa064d649c4dd5ad06fa0eea"
@@ -71,11 +79,11 @@
         },
         "faker": {
             "hashes": [
-                "sha256:534c9410cd003b794900504d37f0afaf8275bfe8865583250799f696cf227cd3",
-                "sha256:820e55f62b428a4d55f6700358167e84a6ba3f8371e9ef39f9ca03a504dcae18"
+                "sha256:b996c2162448241a48155df2077458d6fcf1adcee9a6d1201bb9c06c40e8f48d",
+                "sha256:e1939ea638e7bacfa4dce69f872bdd7d53c1b23a92f1bd9f530590c93a4677e0"
             ],
             "markers": "python_version >= '3.6'",
-            "version": "==12.1.0"
+            "version": "==12.3.0"
         },
         "mypy-extensions": {
             "hashes": [
@@ -306,11 +314,11 @@
         },
         "typing-extensions": {
             "hashes": [
-                "sha256:4ca091dea149f945ec56afb48dae714f21e8692ef22a395223bcd328961b6a0e",
-                "sha256:7f001e5ac290a0c0401508864c7ec868be4e701886d5b573a9528ed3973d9d3b"
+                "sha256:ba97c5143e5bb067b57793c726dd857b1671d4b02ced273ca0538e71ff009095",
+                "sha256:c13180fbaa7cd97065a4915ceba012bdb31dc34743e63ddee16360161d358414"
             ],
             "markers": "python_version >= '3.6'",
-            "version": "==4.0.1"
+            "version": "==4.1.0"
         }
     },
     "develop": {
