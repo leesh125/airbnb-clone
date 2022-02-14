@@ -9,6 +9,9 @@ module.exports = {
       },
       borderRadius: {
         xl: "1.5rem"
+      },
+      colors: {
+        kakao: "#fae100"
       }
     }
   },
