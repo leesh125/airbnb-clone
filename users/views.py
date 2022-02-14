@@ -6,6 +6,7 @@ from django.urls import reverse_lazy
 from django.shortcuts import render, redirect, reverse
 from django.contrib.auth import authenticate, login, logout
 from django.core.files.base import ContentFile
+from django.contrib import messages
 from . import forms, models
 
 
@@ -209,4 +210,5 @@ def kakao_callback(request):
         login(request, user)
         return redirect(reverse("core:home"))
     except KakaoException:
+        messages.error(request, "Something went wrong")
         return redirect(reverse("users:login"))
