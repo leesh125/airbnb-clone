@@ -10,7 +10,7 @@ class HomeView(ListView):
 
     # ListView가 아래 model(Room 객체들)을 List 해줌
     model = models.Room
-    paginate_by = 10
+    paginate_by = 12
     paginate_orphans = 5
     ordering = "created"
     context_object_name = "rooms"  # 불러오는 model object의 이름 설정

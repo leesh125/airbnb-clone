@@ -126,3 +126,9 @@ class Room(core_models.TimeStampedModel):
             return round(all_ratings / len(all_reviews), 2)
         except ZeroDivisionError:  # 리뷰가 하나도 없을때의 예외처리
             return 0
+
+    # 첫번째 사진 가져오는 함수
+    def first_photo(self):
+        # 열거식(,)으로 배열에 첫번째 값 빼오기
+        (photo,) = self.photos.all()[:1]
+        return photo.file.url
