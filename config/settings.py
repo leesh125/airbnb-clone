@@ -133,6 +133,8 @@ USE_TZ = True
 
 STATIC_URL = "/static/"
 
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
+
 # 장고가 제공하는 User 대신 내가 작성한 User를 적용
 AUTH_USER_MODEL = "users.User"
 
