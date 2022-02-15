@@ -8,10 +8,12 @@ from django.shortcuts import render, redirect, reverse
 from django.contrib.auth import authenticate, login, logout
 from django.core.files.base import ContentFile
 from django.contrib import messages
-from . import forms, models
+from django.contrib.messages.views import SuccessMessageMixin
+from . import forms, models, mixins
 
 
-class LoginView(FormView):
+# mixins의 test가 true여야만 아래 코드를 진행가능
+class LoginView(mixins.LoggedOutOnlyView, FormView):
 
     template_name = "users/login.html"
     form_class = forms.LoginForm
@@ -231,7 +233,7 @@ class UserProfileView(DetailView):
     #     return context
 
 
-class UpdateProfileView(UpdateView):
+class UpdateProfileView(SuccessMessageMixin, UpdateView):
 
     model = models.User
     template_name = "users/update-profile.html"  # 반환할 템플릿 이름 지정
@@ -244,6 +246,7 @@ class UpdateProfileView(UpdateView):
         "language",
         "currency",
     )
+    success_message = "Profile updated"  # message 띄우기
 
     # 수정하고 싶어하는 객체 반환
     def get_object(self, queryset=None):
@@ -256,10 +259,13 @@ class UpdateProfileView(UpdateView):
         return form
 
 
-class UpdatePasswordView(PasswordChangeView):
+class UpdatePasswordView(SuccessMessageMixin, PasswordChangeView):
 
     """ Update Password View """
 
     model = models.User
     template_name = "users/update-password.html"
     form_class = forms.UpdatePasswordForm
+
+    def get_success_url(self):
+        return self.request.user.get_absolute_url()
