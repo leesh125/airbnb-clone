@@ -1,5 +1,6 @@
 import os
 import requests
+from django.contrib.auth.views import PasswordChangeView
 from django.views import View
 from django.views.generic import FormView, DetailView, UpdateView
 from django.urls import reverse_lazy
@@ -248,3 +249,15 @@ class UpdateProfileView(UpdateView):
     # 수정하고 싶어하는 객체 반환
     def get_object(self, queryset=None):
         return self.request.user
+
+    # 이메일 저장시 username도 동일하게 변경
+    # def form_valid(self, form):
+    #     email = form.cleaned_data.get("email")
+    #     self.object.username = email
+    #     self.object.save()
+    #     return super().form_valid(form)
+
+
+class UpdatePasswordView(PasswordChangeView):
+
+    template_name = "users/update-password.html"
