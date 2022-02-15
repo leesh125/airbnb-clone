@@ -14,8 +14,8 @@
 
         <form method="POST" action="{% url 'users:login' %}" class="w-full">
             {% csrf_token %}
-            <input type="email" placeholder="&#xf0e0; &nbsp; Email" class="mb-3" style="font-family:Arial, FontAwesome">
-            <input type="password" placeholder="&#xf023; &nbsp; Password" class="mb-3" style="font-family:Arial, FontAwesome">
+            <input type="email" name="email" placeholder="&#xf0e0; &nbsp; Email" class="mb-3" style="font-family:Arial, FontAwesome">
+            <input type="password" name="password" placeholder="&#xf023; &nbsp; Password" class="mb-3" style="font-family:Arial, FontAwesome">
             <button class="btn bg-red-500 text-white">
                 <i class="fab fa-airbnb mr-2 fa-lg"></i> Login
             </button>

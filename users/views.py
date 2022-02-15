@@ -28,6 +28,7 @@ class LoginView(mixins.LoggedOutOnlyView, FormView):
         # if check_user.email_verified == False:
         #     print("please verify your email")
         if user is not None:
+            messages.success(self.request, f"Welcome {user.first_name}")
             login(self.request, user)
         return super().form_valid(form)
 
