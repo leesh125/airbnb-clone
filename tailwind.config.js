@@ -14,6 +14,9 @@ module.exports = {
         "50vh": "50vh",
         "75vh": "75vh"
       },
+      height: {
+        "profile_text":"-webkit-fill-available"
+      },
       colors: {
         kakao: "#fae100"
       }

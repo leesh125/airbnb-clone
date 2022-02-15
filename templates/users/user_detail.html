@@ -11,7 +11,7 @@
     <div class="min-h-75vh">
         <div class="container lg:w-5/12 md:w-7/12 xl:w-1/2 mx-auto my-10 flex flex-col items-center border p-6 border-gray-400">
 
-            {% include 'mixins/user_avatar.html' with user=user_obj %}
+            {% include 'mixins/user_avatar.html' with user=user_obj h_and_w='w-32 h-32' text='text-6xl' height='h-profile_text' %}
     
             <div class="flex items-center">
                 <span class="text-3xl mt-1">{{user_obj.first_name}}</span>

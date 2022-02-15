@@ -25,7 +25,7 @@
                     <span class="text-gray-600">{{room.city}}</span>
                 </div>
                 <a href="{{room.host.get_absolute_url}}" class="flex flex-col items-center">
-                    {% include 'mixins/user_avatar.html' with user=room.host %}
+                    {% include 'mixins/user_avatar.html' with user=room.host h_and_w='w-16 h-16' %}
                     <span class="mt-1 text-gray-600">{{room.host.first_name}}</span>
                 </a>
             </div>
@@ -57,10 +57,34 @@
                     <li class="mb-2">{{hr}}</li>
                 {% endfor %}
             </div>
-            <div class="border-section">
+            <div class="mt-10">
                 <h4 class="font-medium text-2xl mb-5">Reviews</h4>
-                <div>
-                    {{room.total_rating}} {{room.reviews.count}} review{{room.reviews.count|pluralize}}
+                <div class="flex items-center">
+                    <div>
+                        <i class="fas fa-star text-green-500"></i>
+                        <span class="font-bold text-lg ml-1">{{room.total_rating}}</span>
+                    </div>
+                    <div class="h-5 w-px bg-gray-400 mx-3"></div>
+                    <div>
+                        <span class="font-bold text-lg">{{room.reviews.count}}</span> 
+                        <span>review{{room.reviews.count|pluralize}}</span>
+                    </div>
+                </div>
+                <div class="mt-10">
+                    {% for review in room.reviews.all %}
+                        <div class="border-section">
+                            <div class="mb-3 flex">
+                                <div>
+                                    {% include 'mixins/user_avatar.html' with user=review.user h_and_w='w-10 h-10' text='text-xl' %}
+                                </div>
+                                <div class="flex flex-col ml-3">
+                                    <span class="font-medium">{{review.user.first_name}}</span>
+                                    <span class="text-sm text-gray-500">{{review.created|date:'F Y'}}</span>
+                                </div>
+                            </div>
+                            <p>{{review.review}}</p>
+                        </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
