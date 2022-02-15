@@ -17,10 +17,6 @@ class LoginView(mixins.LoggedOutOnlyView, FormView):
 
     template_name = "users/login.html"
     form_class = forms.LoginForm
-    # url을 통해 클래스(뷰)를 불러올때 아직 url은 불려지지 않음
-    # reverse_lazy를 통해 이미 요청 응답이 끝난 페이지에서 다른 페이지로 가고자 할 때
-    # 뒤늦게 호출할 수 있다.(로그인 버튼을 누르면 동일한 url로 POST방식으로 전달 후 홈으로 REDIRECT)
-    success_url = reverse_lazy("core:home")
 
     def form_valid(self, form):
         email = form.cleaned_data.get("email")
@@ -34,6 +30,15 @@ class LoginView(mixins.LoggedOutOnlyView, FormView):
         if user is not None:
             login(self.request, user)
         return super().form_valid(form)
+
+    # 로그아웃 시점에서 로그인이 필요한 요청을 한 경우  로그인을 시킨뒤
+    # 아래 메서드 처럼 원래 요청을 수행할 수 있다.
+    def get_success_url(self):
+        next_arg = self.request.GET.get("next")
+        if next_arg is not None:
+            return next_arg
+        else:
+            return reverse("core:home")
 
 
 def log_out(request):
@@ -233,7 +238,9 @@ class UserProfileView(DetailView):
     #     return context
 
 
-class UpdateProfileView(SuccessMessageMixin, UpdateView):
+# mixins.LoggedInOnlyView에 의해 로그인을 하지 않은 사람이 비번 변경등의 페이지를 요청하면
+# 아래 클래스 코드 진행 안됨(프로필 업데이트)
+class UpdateProfileView(mixins.LoggedInOnlyView, SuccessMessageMixin, UpdateView):
 
     model = models.User
     template_name = "users/update-profile.html"  # 반환할 템플릿 이름 지정
@@ -259,7 +266,12 @@ class UpdateProfileView(SuccessMessageMixin, UpdateView):
         return form
 
 
-class UpdatePasswordView(SuccessMessageMixin, PasswordChangeView):
+class UpdatePasswordView(
+    mixins.LoggedInOnlyView,
+    mixins.EmailLoginOnlyView,
+    SuccessMessageMixin,
+    PasswordChangeView,
+):
 
     """ Update Password View """
 
