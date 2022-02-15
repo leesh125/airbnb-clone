@@ -4,6 +4,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.core.mail import send_mail
 from django.utils.html import strip_tags
+from django.shortcuts import reverse
 from django.template.loader import render_to_string
 
 
@@ -69,6 +70,10 @@ class User(AbstractUser):
     login_method = models.CharField(
         max_length=50, choices=LOGIN_CHOICES, default=LOGIN_EMAIL
     )
+
+    def get_absolute_url(self):
+
+        return reverse("users:profile", kwargs={"pk": self.pk})
 
     # 이메일 인증을 view가 아닌 model에 둔 이유
     # : 이메일을 수정할 경우 다시 인증을 해야하기에
