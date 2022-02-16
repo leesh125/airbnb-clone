@@ -288,7 +288,7 @@ class UpdatePasswordView(
 @login_required
 def switch_hosting(request):
     try:
-        del request.session["is_hosting"] # 세션 설정(제거)
+        del request.session["is_hosting"]  # 세션 설정(제거)
     except KeyError:
-        request.session["is_hosting"] = True # 세션 없으면 추가
+        request.session["is_hosting"] = True  # 세션 없으면 추가
     return redirect(reverse("core:home"))
