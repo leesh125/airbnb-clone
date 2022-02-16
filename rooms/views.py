@@ -201,9 +201,7 @@ class EditPhotoView(user_mixins.LoggedInOnlyView, SuccessMessageMixin, UpdateVie
 
 class AddPhotoView(user_mixins.LoggedInOnlyView, FormView):
 
-    model = models.Photo
     template_name = "rooms/photo_create.html"
-    fields = ("caption", "file")
     form_class = forms.CreatePhotoForm
 
     def form_valid(self, form):
@@ -222,5 +220,7 @@ class CreateRoomView(user_mixins.LoggedInOnlyView, FormView):
         room = form.save()
         room.host = self.request.user
         room.save()
-        messages.success(self.request, "Photo Uploaded")
+        # many to many 필드 저장하기(db에 먼저 저장 후 호출해야한다)
+        form.save_m2m()
+        messages.success(self.request, "Room Uploaded")
         return redirect(reverse("rooms:detail", kwargs={"pk": room.pk}))
