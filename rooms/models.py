@@ -129,9 +129,11 @@ class Room(core_models.TimeStampedModel):
 
     # 첫번째 사진 가져오는 함수
     def first_photo(self):
-        # 열거식(,)으로 배열에 첫번째 값 빼오기
-        (photo,) = self.photos.all()[:1]
-        return photo.file.url
+        try:
+            (photo,) = self.photos.all()[:1]
+            return photo.file.url
+        except ValueError:
+            return None
 
     def get_next_four_photos(self):
         photos = self.photos.all()[1:5]
