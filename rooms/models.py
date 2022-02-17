@@ -1,12 +1,8 @@
-# * import 관례
-# 0. 파이썬 관련한 것 (ex.import os)
-# 1. django와 관련된 것들
-# 2. 외부 패키지
-# 3. 내가 만든 패키지
 from django.db import models
 from django.urls import reverse  # 지정한 url name을 return 하기위해
 from django_countries.fields import CountryField
 from core import models as core_models
+from cal import Calendar
 
 
 class AbstractItem(core_models.TimeStampedModel):
@@ -138,3 +134,8 @@ class Room(core_models.TimeStampedModel):
     def get_next_four_photos(self):
         photos = self.photos.all()[1:5]
         return photos
+
+    def get_calendars(self):
+        calendar = Calendar(2019, 11)
+        print(calendar.get_month())
+        return False
