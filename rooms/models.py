@@ -1,5 +1,7 @@
 from django.db import models
 from django.urls import reverse  # 지정한 url name을 return 하기위해
+from django.utils import timezone
+from dateutil import relativedelta
 from django_countries.fields import CountryField
 from core import models as core_models
 from cal import Calendar
@@ -136,6 +138,8 @@ class Room(core_models.TimeStampedModel):
         return photos
 
     def get_calendars(self):
-        calendar = Calendar(2019, 11)
-        print(calendar.get_month())
-        return False
+        today = timezone.localtime(timezone.now()).date()
+        nextmonth = today + relativedelta.relativedelta(months=1)
+        this_month = Calendar(today.year, today.month)
+        next_month = Calendar(nextmonth.year, nextmonth.month)
+        return [this_month, next_month]
