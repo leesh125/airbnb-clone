@@ -1,17 +1,17 @@
 import datetime
 from django import template
-from reservations import models as reservations_models
+from reservations import models as reservation_models
 
 register = template.Library()
 
 
-@register.simple_tag()
+@register.simple_tag
 def is_booked(room, day):
     if day.number == 0:
-        return False
+        return
     try:
         date = datetime.datetime(year=day.year, month=day.month, day=day.number)
-        reservations_models.BookedDay.objects.get(day=date, reservation__room=room)
+        reservation_models.BookedDay.objects.get(day=date, reservation__room=room)
         return True
-    except reservations_models.BookedDay.DoesNotExist:
+    except reservation_models.BookedDay.DoesNotExist:
         return False
