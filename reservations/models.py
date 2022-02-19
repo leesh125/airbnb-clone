@@ -1,6 +1,20 @@
+import datetime
 from django.db import models
 from django.utils import timezone  # python 라이브러리 사용하지 않는이유(애플리케이션 서버의 시간을 알기위해)
 from core import models as core_models
+
+# check_in과 check_out 사이의 날짜를 확인하기 위한 클래스
+class BookedDay(core_models.TimeStampedModel):
+
+    day = models.DateField()
+    reservation = models.ForeignKey("Reservation", on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = "Booked Day"
+        verbose_name_plural = "Booked Days"
+
+    def __str__(self):
+        return str(self.day)
 
 
 class Reservation(core_models.TimeStampedModel):
@@ -44,6 +58,23 @@ class Reservation(core_models.TimeStampedModel):
         return now > self.check_out
 
     is_finished.boolean = True
+
+    def save(self, *args, **kwargs):
+        if self.pk is None:  # 새로 생성된 예약인지 확인
+            start = self.check_in
+            end = self.check_out
+            difference = end - start
+            existing_booked_day = BookedDay.objects.filter(
+                day__range=(start, end)
+            ).exists()  # 시작과 끝일 사이에 예약된 날이 있는지 확인
+            if not existing_booked_day:
+                super().save(*args, **kwargs)
+                for i in range(difference.days + 1):
+                    day = start + datetime.timedelta(days=i)
+                    BookedDay.objects.create(day=day, reservation=self)
+                return
+        else:
+            return super().save(*args, **kwargs)
 
 
 # 현재 시간 갖고오는 함수
