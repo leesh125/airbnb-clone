@@ -38,3 +38,6 @@ class Review(core_models.TimeStampedModel):
         return round(avg, 2)  # 두자리 수 까지 반올림
 
     rating_average.short_description = "Avg"
+
+    class Meta:
+        ordering = ("-created",)  # 리뷰 작성이 최신순서로 정렬

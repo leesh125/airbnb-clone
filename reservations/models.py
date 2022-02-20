@@ -2,7 +2,7 @@ import datetime
 from django.db import models
 from django.utils import timezone  # python 라이브러리 사용하지 않는이유(애플리케이션 서버의 시간을 알기위해)
 from core import models as core_models
-from . import managers
+
 
 # check_in과 check_out 사이의 날짜를 확인하기 위한 클래스
 class BookedDay(core_models.TimeStampedModel):
@@ -43,7 +43,6 @@ class Reservation(core_models.TimeStampedModel):
     room = models.ForeignKey(
         "rooms.Room", related_name="reservations", on_delete=models.CASCADE
     )
-    objects = managers.CustomReservationManager()
 
     def __str__(self):
         return f"{self.room} - {self.check_in}"
