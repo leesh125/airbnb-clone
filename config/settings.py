@@ -61,6 +61,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "django.middleware.locale.LocaleMiddleware",
 ]
 
 ROOT_URLCONF = "config.urls"
@@ -117,7 +118,13 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
-LANGUAGE_CODE = "en-us"
+# Locale
+
+LOCALE_PATHS = (os.path.join(BASE_DIR, "locale"),)
+
+LANGUAGE_CODE = "en"
+
+LANGUAGE_COOKIE_NAME = "django_language"
 
 TIME_ZONE = "Asia/Seoul"
 
@@ -156,8 +163,3 @@ EMAIL_FROM = "adminairbnb@sandbox0d081492021d40d1ad802d9257ec671d.mailgun.org"
 
 # Auth : 로그인이 필요한 경우 login 페이지로 보냄
 LOGIN_URL = "/users/login/"
-
-
-# Locale : translate
-
-LOCALE_PATHS = (os.path.join(BASE_DIR, "locale"),)
