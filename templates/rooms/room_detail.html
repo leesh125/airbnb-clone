@@ -31,9 +31,9 @@
             </div>
             {% on_favs room as on_favs_boolean %}
             {% if on_favs_boolean %}
-                <a class="block mb-10 w-2/6" href="{% url 'lists:save-room' room.pk %}">{% trans "Remove from Favourites" %}</a>
+                <a class="block mb-10 w-2/5 text-green-600 font-bold" href="{% url 'lists:toggle-room' room.pk %}?action=remove">{% trans "Remove from Favourites" %}</a>
             {% else %}
-                <a class="block mb-10 w-2/6" href="{% url 'lists:save-room' room.pk %}">{% trans "Save to Favourites" %}</a>
+                <a class="block mb-10 w-2/5 text-green-600 font-bold" href="{% url 'lists:toggle-room' room.pk %}?action=add">{% trans "Save to Favourites" %}</a>
             {% endif %}
                 
             <div class="border-section">
@@ -117,7 +117,7 @@
                                         {% elif is_booked_bool %}
                                             <span class="rounded bg-gray-200 w-full text-center p-1 text-gray-300 line-through">{{day}}</span>
                                         {% else %}
-                                            <a href="{% url 'reservations:create' room.pk day.year day.month day.number %}" class="bg-gray-200 w-full text-center rounded text-gray-700 p-1 hover:bg-teal-400 hover:text-white hover:font-medium cursor-pointer">{{day}}</a>
+                                            <a href="{% url 'reservations:create' room.pk day.year day.month day.number %}" class="bg-gray-200 w-full text-center rounded text-gray-700 p-1 hover:bg-green-400 hover:text-white hover:font-medium cursor-pointer">{{day}}</a>
                                         {% endif %}
                                     {% else %}
                                         <span></span>
