@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-02-20 17:44+0900\n"
+"POT-Creation-Date: 2022-02-21 13:56+0900\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,10 +22,111 @@ msgstr ""
 msgid "Search by City"
 msgstr "Buscar por Ciudad"
 
-#: .\templates\partials\footer.html:4
+#: .\templates\partials\footer.html:5
 msgid "Please don't copy my App."
 msgstr "Por favor no nos copies."
 
-#: .\templates\partials\footer.html:6
+#: .\templates\partials\footer.html:7
 msgid "All rights reserved."
-msgstr "Todos los derechos reservados" 
+msgstr "Todos los derechos reservados"
+
+#: .\templates\partials\nav.html:9
+msgid "Stop hosting"
+msgstr "Dejar de hospedar"
+
+#: .\templates\partials\nav.html:11
+msgid "Start hosting"
+msgstr "Empezar a hospedar"
+
+#: .\templates\partials\nav.html:16
+msgid "Create Room"
+msgstr "Crear habitación"
+
+#: .\templates\partials\nav.html:18
+msgid "Profile"
+msgstr "Perfil"
+
+#: .\templates\partials\nav.html:19
+msgid "Log out"
+msgstr "Cerrar sesión"
+
+#: .\templates\partials\nav.html:21
+msgid "Log in"
+msgstr "Iniciar sesión"
+
+#: .\templates\partials\nav.html:22
+msgid "Sign up"
+msgstr "Inscribirse"
+
+#: .\templates\rooms\room_list.html:28
+#, python-format
+msgid "Page %(current_page)s of %(total_pages)s"
+msgstr "Página %(current_page)s de %(total_pages)s"
+
+#: .\users\mixins.py:15 .\users\mixins.py:28
+msgid "Can't go there"
+msgstr "No puedes ir ahí"
+
+#: .\users\models.py:24
+msgid "Male"
+msgstr "Hombre"
+
+#: .\users\models.py:25
+msgid "Female"
+msgstr "Mujer"
+
+#: .\users\models.py:26
+msgid "Other"
+msgstr "Otro"
+
+#: .\users\models.py:33
+msgid "English"
+msgstr "Inglés"
+
+#: .\users\models.py:34
+msgid "Korean"
+msgstr "Coreano"
+
+#: .\users\models.py:41
+msgid "USD"
+msgstr "$"
+
+#: .\users\models.py:42
+msgid "KRW"
+msgstr "￦"
+
+#: .\users\models.py:50
+msgid "Email"
+msgstr "Correo electrónico"
+
+#: .\users\models.py:51
+msgid "Github"
+msgstr "Github"
+
+#: .\users\models.py:52
+msgid "Kakao"
+msgstr "kakao"
+
+#: .\users\models.py:57
+msgid "gender"
+msgstr "género"
+
+#: .\users\models.py:60
+msgid "bio"
+msgstr "biografía"
+
+#: .\users\models.py:62
+msgid "bithdate"
+msgstr "fecha de nacimiento"
+
+#: .\users\models.py:64
+msgid "language"
+msgstr "idioma"
+
+#: .\users\models.py:73
+msgid "superhost"
+msgstr "superanfitrión"
+
+#: .\users\models.py:97
+msgid "Verify Airbnb Account"
+msgstr "Verificar Cuenta de Airbnb"

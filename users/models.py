@@ -1,4 +1,5 @@
 import uuid
+from django.utils.translation import gettext_lazy as _
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.db import models
@@ -20,25 +21,25 @@ class User(AbstractUser):
     GENDER_OTHER = "other"
 
     GENDER_CHOICES = (
-        (GENDER_MALE, "Male"),
-        (GENDER_FEMALE, "Female"),
-        (GENDER_OTHER, "Other"),
+        (GENDER_MALE, _("Male")),
+        (GENDER_FEMALE, _("Female")),
+        (GENDER_OTHER, _("Other")),
     )
 
-    LANGUAGE_ENGLISH = "english"
-    LANGUAGE_KOREAN = "korean"
+    LANGUAGE_ENGLISH = "en"
+    LANGUAGE_KOREAN = "kr"
 
     LANGUAGE_CHOICES = (
-        (LANGUAGE_ENGLISH, "English"),  # ("database에 넘어갈 값", "admin 패널 form에 보여질 값")
-        (LANGUAGE_KOREAN, "Korean"),
+        (LANGUAGE_ENGLISH, _("English")),
+        (LANGUAGE_KOREAN, _("Korean")),
     )
 
     CURRENCY_USD = "usd"
     CURRENCY_KRW = "krw"
 
     CURRENCY_CHOICES = (
-        (CURRENCY_USD, "USD"),
-        (CURRENCY_KRW, "KRW"),
+        (CURRENCY_USD, _("USD")),
+        (CURRENCY_KRW, _("KRW")),
     )
 
     LOGIN_EMAIL = "email"
@@ -46,24 +47,30 @@ class User(AbstractUser):
     LOGIN_KAKAO = "kakao"
 
     LOGIN_CHOICES = (
-        (LOGIN_EMAIL, "Email"),
-        (LOGIN_GITHUB, "Github"),
-        (LOGIN_KAKAO, "Kakao"),
+        (LOGIN_EMAIL, _("Email")),
+        (LOGIN_GITHUB, _("Github")),
+        (LOGIN_KAKAO, _("Kakao")),
     )
 
     avatar = models.ImageField(upload_to="avatars", blank=True)  # blank : 값을 입력 안해도됨
-    gender = models.CharField(choices=GENDER_CHOICES, max_length=10, blank=True)
+    gender = models.CharField(
+        _("gender"), choices=GENDER_CHOICES, max_length=10, blank=True
+    )
     bio = models.TextField(
-        default="", blank=True
+        _("bio"), blank=True
     )  # default를 통해 기존에 있던 필드에 새로운 컬럼값을 설정 가능
-    birthdate = models.DateField(blank=True, null=True)
+    birthdate = models.DateField(_("bithdate"), blank=True, null=True)
     language = models.CharField(
-        choices=LANGUAGE_CHOICES, max_length=10, blank=True, default=LANGUAGE_KOREAN
+        _("language"),
+        choices=LANGUAGE_CHOICES,
+        max_length=2,
+        blank=True,
+        default=LANGUAGE_KOREAN,
     )
     currency = models.CharField(
         choices=CURRENCY_CHOICES, max_length=3, blank=True, default=CURRENCY_KRW
     )
-    superhost = models.BooleanField(default=False)
+    superhost = models.BooleanField(_("superhost"), default=False)
     email_verified = models.BooleanField(default=False)
     # 이메일 인증을 위해 랜덤 문자열 링크를 보내고 해당 유저가 그것을 클릭하면 이 문자열을 가진 user를 찾는다
     email_secret = models.CharField(max_length=120, default="", blank=True)
@@ -87,7 +94,7 @@ class User(AbstractUser):
                 "emails/verify_email.html", {"secret": secret}
             )
             send_mail(
-                "Verify Airbnb Account",
+                _("Verify Airbnb Account"),
                 strip_tags(html_message),  # html을 html 형태(태그)를 제외한 상태로 return
                 settings.EMAIL_FROM,
                 [self.email],

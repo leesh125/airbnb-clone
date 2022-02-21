@@ -2,6 +2,7 @@ import os
 import requests
 from config import settings
 from django.utils import translation
+from django.utils.translation import gettext_lazy as _
 from django.http import HttpResponse
 from django.contrib.auth.views import PasswordChangeView
 from django.views import View
@@ -32,7 +33,7 @@ class LoginView(mixins.LoggedOutOnlyView, FormView):
         # if check_user.email_verified == False:
         #     print("please verify your email")
         if user is not None:
-            messages.success(self.request, f"Welcome {user.first_name}")
+            messages.success(self.request, _(f"Welcome {user.first_name}"))
             login(self.request, user)
         return super().form_valid(form)
 
@@ -47,7 +48,7 @@ class LoginView(mixins.LoggedOutOnlyView, FormView):
 
 
 def log_out(request):
-    messages.info(request, "See you later")
+    messages.info(request, _("See you later"))
     logout(request)
     return redirect(reverse("core:home"))
 

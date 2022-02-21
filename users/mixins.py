@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.shortcuts import redirect, reverse
+from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
 from django.urls import reverse_lazy
 
@@ -11,7 +12,7 @@ class EmailLoginOnlyView(UserPassesTestMixin):
         return self.request.user.login_method == "email"
 
     def handle_no_permission(self):
-        messages.error(self.request, "Can't go there")
+        messages.error(self.request, _("Can't go there"))
         return redirect("core:home")
 
 
@@ -24,7 +25,7 @@ class LoggedOutOnlyView(UserPassesTestMixin):
 
     # 로그인을 안했는데 권한이 필요한 페이지를 간다면 홈으로
     def handle_no_permission(self):
-        messages.error(self.request, "Can't go there")
+        messages.error(self.request, _("Can't go there"))
         return redirect("core:home")
 
 
