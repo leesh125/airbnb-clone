@@ -7,6 +7,7 @@ from django.core.mail import send_mail
 from django.utils.html import strip_tags
 from django.shortcuts import reverse
 from django.template.loader import render_to_string
+from core import managers as core_managers
 
 
 # user 모델(테이블) 만들기(AbstractUser를 상속받아 기존 장고가 제공해주는 user의 필드 이용)
@@ -103,3 +104,5 @@ class User(AbstractUser):
             )
             self.save()  # 해당 user의 email_secret 필드의 값을 저장
         return
+
+    objects = core_managers.CustomModelManager()
