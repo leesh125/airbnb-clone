@@ -1,4 +1,5 @@
 import datetime
+from django.contrib.auth.decorators import login_required
 from django.http import Http404
 from django.views.generic import View
 from django.contrib import messages
@@ -12,12 +13,16 @@ class CreateError(Exception):
     pass
 
 
+@login_required
 def create(request, room, year, month, day):
     try:
         date_obj = datetime.datetime(year, month, day)
         room = room_models.Room.objects.get(pk=room)
         models.BookedDay.objects.get(day=date_obj, reservation__room=room)
         raise CreateError()
+    except (room_models.Room.DoesNotExist, CreateError):
+        messages.error(request, "Can't Reserve That Room")
+        return redirect(reverse("core:home"))
     except models.BookedDay.DoesNotExist:
         reservation = models.Reservation.objects.create(
             guest=request.user,
@@ -26,9 +31,6 @@ def create(request, room, year, month, day):
             check_out=date_obj + datetime.timedelta(days=1),
         )
         return redirect(reverse("reservations:detail", kwargs={"pk": reservation.pk}))
-    except (room_models.Room.DoesNotExist, CreateError):
-        messages.error(request, "Can't Reserve That Room")
-        return redirect(reverse("core:home"))
 
 
 class ReservationDetailView(View):
@@ -40,7 +42,7 @@ class ReservationDetailView(View):
             and reservation.room.host != self.request.user
         ):
             raise Http404()
-        form = review_forms.CreateReviewForm() # 리뷰 작성 폼 추가
+        form = review_forms.CreateReviewForm()
         return render(
             self.request,
             "reservations/detail.html",

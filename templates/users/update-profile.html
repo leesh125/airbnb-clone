@@ -21,6 +21,7 @@
             {% endif %}
             
             {% for field in form %}
+                {{field.name}}
                 {% include 'mixins/auth/form_input.html' with field=field %}
             {% endfor %}
 
@@ -30,7 +31,7 @@
         
         {% if object.login_method == "email" %}
             <div class="mt-5">
-                <a href="{% url 'users:password' %}" class="text-green-500 font-medium">Change Password</a>
+                <a href="{% url 'users:update-password' %}" class="text-green-500 font-medium">Change Password</a>
             </div>
         {% endif %}
             

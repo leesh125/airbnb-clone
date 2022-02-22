@@ -78,6 +78,7 @@ class User(AbstractUser):
     login_method = models.CharField(
         max_length=50, choices=LOGIN_CHOICES, default=LOGIN_EMAIL
     )
+    objects = core_managers.CustomUserManager()
 
     def get_absolute_url(self):
 
@@ -104,5 +105,3 @@ class User(AbstractUser):
             )
             self.save()  # 해당 user의 email_secret 필드의 값을 저장
         return
-
-    objects = core_managers.CustomModelManager()

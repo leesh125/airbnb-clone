@@ -8,7 +8,6 @@
     </div>
     <div class="mt-10 flex justify-end">
         {% get_current_language as LANGUAGE_CODE %}
-        {{LANGUAGE_CODE}}
         <select class="w-1/5 h-8 p-0 font-normal" id="js-lang">
             <option value="en"
                 {% if LANGUAGE_CODE == 'en' %}
