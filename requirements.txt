@@ -6,12 +6,12 @@ cement==2.8.2
 certifi==2021.10.8
 charset-normalizer==2.0.12
 click==8.0.4
-colorama==0.4.4
+colorama==0.4.3
 Django==2.2.5
 django-countries==7.2.1
 django-dotenv==1.4.2
 django-seed==0.3.1
-Faker==13.0.0
+Faker==13.2.0
 flake8==4.0.1
 future==0.16.0
 idna==3.3
@@ -29,9 +29,9 @@ pytz==2021.3
 pywin32==303
 PyYAML==5.4.1
 regex==2022.1.18
-requests==2.27.1
+requests==2.26.0
 semantic-version==2.8.5
-six==1.16.0
+six==1.14.0
 sqlparse==0.4.2
 termcolor==1.1.0
 toml==0.10.2
