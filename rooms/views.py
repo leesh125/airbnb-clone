@@ -1,7 +1,7 @@
 from django.http import Http404
 from django.views.generic import ListView, DetailView, View, UpdateView, FormView
 from django.shortcuts import render, redirect, reverse
-from django.core.paginator import Paginator
+from django.core.paginator import Paginator, Page
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
@@ -41,30 +41,32 @@ class RoomDetail(DetailView):  # DetailView는 기본적으로 url argument로 p
 
 
 class SearchView(View):
-
-    """ SearchView Definition """
+    """Room search view"""
 
     def get(self, request):
 
-        country = request.GET.get("country")  # country가 빈 값으로 올 경우
+        country = request.GET.get("country")
 
         if country:
-            form = forms.SearchForm(request.GET)  # request 파라미터를 가져오고 기억할 수 있음
 
-            if form.is_valid():  # form 이 에러가 없으면 True 리턴
-                # cleaned_data: 선택한 값들을 가져옴(객체는 pk가 아닌 객체 그대로 가져옴)
-                city = form.cleaned_data.get("city")
-                country = form.cleaned_data.get("country")
-                room_type = form.cleaned_data.get("room_type")
-                price = form.cleaned_data.get("price")
-                guests = form.cleaned_data.get("guests")
-                bedrooms = form.cleaned_data.get("bedrooms")
-                beds = form.cleaned_data.get("beds")
-                baths = form.cleaned_data.get("baths")
-                instant_book = form.cleaned_data.get("instant_book")
-                superhost = form.cleaned_data.get("superhost")
-                amenities = form.cleaned_data.get("amenities")
-                facilities = form.cleaned_data.get("facilities")
+            form = forms.SearchForm(request.GET)
+
+            if form.is_valid():
+
+                populated_data = form.cleaned_data
+
+                city = populated_data.get("city")
+                country = populated_data.get("country")
+                room_type = populated_data.get("room_type")
+                price = populated_data.get("price")
+                guests = populated_data.get("guests")
+                bedrooms = populated_data.get("bedrooms")
+                beds = populated_data.get("beds")
+                baths = populated_data.get("baths")
+                instant_book = populated_data.get("instant_book")
+                superhost = populated_data.get("superhost")
+                amenities = populated_data.get("amenities")
+                facilities = populated_data.get("facilities")
 
                 filter_args = {}
 
@@ -97,27 +99,30 @@ class SearchView(View):
                 if superhost is True:
                     filter_args["host__superhost"] = True
 
-                rooms = models.Room.objects.filter(**filter_args)
+                qs = models.Room.objects.filter(**filter_args)
+
                 for amenity in amenities:
-                    rooms = rooms.filter(amenities=amenity)
+                    qs = qs.filter(amenities=amenity)
 
                 for facility in facilities:
-                    rooms = rooms.filter(facilities=facility)
+                    qs = qs.filter(facilities=facility)
 
-                qs = rooms.order_by("created")
+                qs = qs.order_by("-created")
 
-                paginator = Paginator(qs, 10, orphans=5)
+                paginator = Paginator(qs, 10)
 
-                page = request.GET.get("page", 1)
+                page = int(request.GET.get("page", 1))
 
                 rooms = paginator.get_page(page)
 
-                return render(
-                    request, "rooms/search.html", {"form": form, "rooms": rooms}
-                )
-        else:  # country가 빈 값으로 올 경우
+        else:
+
             form = forms.SearchForm()
-            return render(request, "rooms/search.html", {"form": form})
+            rooms = Page(
+                [], number=0, paginator=Paginator([], 10)
+            )  # just an empty Page for type match with if-case
+
+        return render(request, "rooms/search.html", {"form": form, "rooms": rooms})
 
 
 class EditRoomView(user_mixins.LoggedInOnlyView, UpdateView):
