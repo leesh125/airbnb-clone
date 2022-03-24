@@ -7,19 +7,16 @@ class Conversation(core_models.TimeStampedModel):
     """Conversation Model Definition"""
 
     participants = models.ManyToManyField(
-        "users.User", related_name="conversation", blank=True
+        "users.User", related_name="converstation", blank=True
     )
 
     def __str__(self):
         usernames = []
         for user in self.participants.all():
             usernames.append(user.username)
-
-        return ", ".join(usernames)  # 대화 참여자들을 문자열로 반환
+        return ", ".join(usernames)
 
     def count_messages(self):
-        # Conversation 클래스는 messages가 없다
-        # 하지만 Message는 Conversation과 외래키로 연결되어있다.
         return self.messages.count()
 
     count_messages.short_description = "Number of Messages"
