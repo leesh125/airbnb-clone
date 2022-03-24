@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import UserManager
 
-# custom db 조작
+
 class CustomModelManager(models.Manager):
     def get_or_none(self, **kwargs):
         try:
