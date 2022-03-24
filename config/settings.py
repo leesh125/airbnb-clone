@@ -26,7 +26,7 @@ SECRET_KEY = os.environ.get("DJANGO_SECRET", "NTfF6fEHnYx^P6@HJx@K8M")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool(os.environ.get("DEBUG"))
 
-ALLOWED_HOSTS = [".elasticbeanstalk.com", "localhost", "127.0.0.1", "13.209.176.123"]
+ALLOWED_HOSTS = [".elasticbeanstalk.com", "localhost", "127.0.0.1"]
 
 
 # Application definition
@@ -40,7 +40,7 @@ DJANGO_APPS = [
 ]
 
 # 다른 사람이 만든 App을 넣기 위해 생성
-THIRD_PARTY_APPS = ["django_countries", "django_seed"]
+THIRD_PARTY_APPS = ["django_countries", "django_seed", "storages"]
 
 # 새로 생성한 app들은 settings.py에 등록해야 사용가능
 PROJECT_APPS = [
@@ -183,10 +183,20 @@ EMAIL_FROM = "adminairbnb@sandbox0d081492021d40d1ad802d9257ec671d.mailgun.org"
 LOGIN_URL = "/users/login/"
 
 # Sentry
+DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+STATICFILES_STORAGE = "storages.backends.s3boto3.S3StaticStorage"
+AWS_ACCESS_KEY_ID = "AKIAXWRLWUF5L5FNEBWD"
+AWS_SECRET_ACCESS_KEY = "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"
+AWS_STORAGE_BUCKET_NAME = "airbnb-clone-leesh"
+AWS_DEFAULT_ACL = "public-read"
+
+# Sentry
 
 if not DEBUG:
+
     sentry_sdk.init(
         dsn=os.environ.get("SENTRY_URL"),
         integrations=[DjangoIntegration()],
+        traces_sample_rate=1.0,
         send_default_pii=True,
     )
