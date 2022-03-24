@@ -88,8 +88,8 @@ WSGI_APPLICATION = "config.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-# 자체 서버용 DB = sqlite3
-if DEBUG:
+
+if not DEBUG:
 
     DATABASES = {
         "default": {
@@ -97,7 +97,7 @@ if DEBUG:
             "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
         }
     }
-    # aws 서버 용 db = postgresql
+
 else:
 
     DATABASES = {
