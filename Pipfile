@@ -13,7 +13,7 @@ requests = "*"
 psycopg2 = "==2.8.6"
 sentry-sdk = "*"
 django-storages = "*"
-boto3 = "==1.10.26"
+boto3 = "*"
 
 [dev-packages]
 flake8 = "*"
