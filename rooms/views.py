@@ -11,7 +11,7 @@ from . import models, forms
 
 class HomeView(ListView):
 
-    """ Homeview Definition """
+    """Homeview Definition"""
 
     # ListView가 아래 model(Room 객체들)을 List 해줌
     model = models.Room
@@ -22,22 +22,22 @@ class HomeView(ListView):
 
 
 # Class Based View
-class RoomDetail(DetailView):  # DetailView는 기본적으로 url argument로 pk를 찾음
+# class RoomDetail(DetailView):  # DetailView는 기본적으로 url argument로 pk를 찾음
 
-    """ RoomDetail Definition """
+#     """RoomDetail Definition"""
 
-    # view 한테 무슨 model을 원하는지 알려줘야함
-    model = models.Room
-    pk_url_kwargs = "potato"  # 지정한 이름으로 넘어올 매개변수 찾음
+#     # view 한테 무슨 model을 원하는지 알려줘야함
+#     model = models.Room
 
 
 # Function Based View
-# def room_detail(request, pk):  # 요청 파라미터로부터 온 pk도 같이 넘겨받음
-#     try:
-#         room = models.Room.objects.get(pk=pk)  # 매개변수로 넘어온 pk의 room 객체 가져오기
-#         return render(request, "rooms/detail.html", {"room": room})
-#     except models.Room.DoesNotExist:  # 매개변수로 넘어온 pk에 해당되는 room 객체가 없으면
-#         raise Http404()  # 404 page 띄우기
+@login_required
+def room_detail(request, pk):  # 요청 파라미터로부터 온 pk도 같이 넘겨받음
+    try:
+        room = models.Room.objects.get(pk=pk)  # 매개변수로 넘어온 pk의 room 객체 가져오기
+        return render(request, "rooms/room_detail.html", {"room": room})
+    except models.Room.DoesNotExist:  # 매개변수로 넘어온 pk에 해당되는 room 객체가 없으면
+        raise Http404()  # 404 page 띄우기
 
 
 class SearchView(View):
