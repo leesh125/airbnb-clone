@@ -10,15 +10,10 @@ django-countries = "*"
 django-seed = "*"
 django-dotenv = "*"
 requests = "*"
-sentry-sdk = "*"
-django-storages = "*"
-boto3 = "*"
-psycopg2-binary = "*"
 
 [dev-packages]
 flake8 = "*"
 black = "*"
-awsebcli = "*"
 
 [requires]
 python_version = "3.8"
