@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = "(aii%@6n0=7!e$p5+9qxdku7v-0fj@h5177tc!@pzy_(-q$8zg"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = bool(os.environ.get("DEBUG"))
+DEBUG = True
 
 ALLOWED_HOSTS = [".elasticbeanstalk.com"]
 
@@ -90,7 +90,7 @@ WSGI_APPLICATION = "config.wsgi.application"
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 
-if DEBUG:
+if DEBUG is False:
 
     DATABASES = {
         "default": {
