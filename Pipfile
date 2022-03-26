@@ -13,6 +13,8 @@ requests = "*"
 psycopg2-binary = "*"
 psycopg2 = "*"
 sentry-sdk = "*"
+django-storages = "*"
+boto3 = "*"
 
 [dev-packages]
 flake8 = "*"

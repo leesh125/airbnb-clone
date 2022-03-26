@@ -26,7 +26,7 @@ SECRET_KEY = os.environ.get("DJANGO_SECRET", "NTfF1fEHnYx^P6@HJx@K9M")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = [".elasticbeanstalk.com", "localhost", "127.0.0.1"]
+ALLOWED_HOSTS = [".elasticbeanstalk.com", "localhost"]
 
 
 # Application definition
@@ -40,7 +40,7 @@ DJANGO_APPS = [
 ]
 
 # 다른 사람이 만든 App을 넣기 위해 생성
-THIRD_PARTY_APPS = ["django_countries", "django_seed"]
+THIRD_PARTY_APPS = ["django_countries", "django_seed", "storages"]
 
 # 새로 생성한 app들은 settings.py에 등록해야 사용가능
 PROJECT_APPS = [
@@ -91,7 +91,7 @@ WSGI_APPLICATION = "config.wsgi.application"
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 
-if DEBUG:
+if DEBUG is True:
 
     DATABASES = {
         "default": {
@@ -150,8 +150,8 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
-
 STATIC_URL = "/static/"
+STATIC_ROOT = "static"
 
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 
@@ -183,9 +183,16 @@ LOGIN_URL = "/users/login/"
 LOCALE_PATHS = (os.path.join(BASE_DIR, "locale"),)
 
 
-# Sentry
-
 if not DEBUG:
+
+    DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
+    STATICFILES_STORAGE = "storages.backends.s3boto3.S3StaticStorage"
+    AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
+    AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
+    AWS_STORAGE_BUCKET_NAME = "airbnb-clone-leesh0125"
+    AWS_DEFAULT_ACL = "public-read"
+
+    # Sentry
     sentry_sdk.init(
         dsn=os.environ.get("SENTRY_URL"),
         integrations=[DjangoIntegration()],
