@@ -24,7 +24,7 @@ SECRET_KEY = "NTfF1fEHnYx^P6@HJx@K9M"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get("DEBUG")
 
-ALLOWED_HOSTS = [".elasticbeanstalk.com"]
+ALLOWED_HOSTS = [".elasticbeanstalk.com", "127.0.0.1"]
 
 
 # Application definition
@@ -89,11 +89,11 @@ WSGI_APPLICATION = "config.wsgi.application"
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 
-if DEBUG:
+if DEBUG if False:
 
     DATABASES = {
         "default": {
-            "ENGINE": "django.db.backends.sqlite33",
+            "ENGINE": "django.db.backends.sqlite3",
             "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
         }
     }
