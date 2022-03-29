@@ -11,8 +11,6 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
-import sentry_sdk
-from sentry_sdk.integrations.django import DjangoIntegration
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -21,12 +19,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get("DJANGO_SECRET", "NTfF1fEHnYx^P6@HJx@K9M")
+SECRET_KEY = "NTfF1fEHnYx^P6@HJx@K9M"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = "*"
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -40,7 +38,7 @@ DJANGO_APPS = [
 ]
 
 # 다른 사람이 만든 App을 넣기 위해 생성
-THIRD_PARTY_APPS = ["django_countries", "django_seed", "storages"]
+THIRD_PARTY_APPS = ["django_countries", "django_seed"]
 
 # 새로 생성한 app들은 settings.py에 등록해야 사용가능
 PROJECT_APPS = [
@@ -91,26 +89,13 @@ WSGI_APPLICATION = "config.wsgi.application"
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 
-if DEBUG:
-
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.sqlite3",
-            "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
-        }
+DATABASES = {
+    "default": {
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
     }
-else:
+}
 
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.postgresql",
-            "HOST": os.environ.get("RDS_HOST"),
-            "NAME": os.environ.get("RDS_NAME"),
-            "USER": os.environ.get("RDS_USER"),
-            "PASSWORD": os.environ.get("RDS_PASSWORD"),
-            "PORT": "5432",
-        }
-    }
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -153,15 +138,10 @@ USE_TZ = True
 STATIC_URL = "/static/"
 STATIC_ROOT = "static"
 
-
-# 장고가 제공하는 User 대신 내가 작성한 User를 적용
 AUTH_USER_MODEL = "users.User"
 
-# 장고에게 어디에다 우리가 업로드한 파일들을 써야할지 말해주는 곳
-# MEDIA_ROOT 를 등록하여 사진이 담겨있는 uploads 파일의 위치를 등록한다.((Django는 이제 사진들이 어디에 저장되고있는지는 알수있다)
 MEDIA_ROOT = os.path.join(BASE_DIR, "uploads")
 
-# MEDIA_ROOT에서 온 media를 다뤄준다.(호스트 다음으로 /media 경로 시작)
 MEDIA_URL = "/media/"
 
 
@@ -180,21 +160,3 @@ LOGIN_URL = "/users/login/"
 # Locale
 
 LOCALE_PATHS = (os.path.join(BASE_DIR, "locale"),)
-
-
-if not DEBUG:
-
-    DEFAULT_FILE_STORAGE = "storages.backends.s3boto3.S3Boto3Storage"
-    STATICFILES_STORAGE = "storages.backends.s3boto3.S3StaticStorage"
-    AWS_ACCESS_KEY_ID = os.environ.get("AWS_ACCESS_KEY_ID")
-    AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SECRET_ACCESS_KEY")
-    AWS_STORAGE_BUCKET_NAME = "airbnb-clone-leesh0125"
-    AWS_DEFAULT_ACL = "public-read"
-
-    # Sentry
-    sentry_sdk.init(
-        dsn=os.environ.get("SENTRY_URL"),
-        integrations=[DjangoIntegration()],
-        traces_sample_rate=1.0,
-        send_default_pii=True,
-    )

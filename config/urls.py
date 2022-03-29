@@ -19,10 +19,6 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 
-def trigger_error(request):
-    division_by_zero = 1 / 0
-
-
 urlpatterns = [
     # / 으로 들어온 url에 관한 처리를 core/urls.py 에서 찾아 mapping 하라는 의미 이다.
     path("", include("core.urls", namespace="core")),
@@ -33,7 +29,6 @@ urlpatterns = [
     path("lists/", include("lists.urls", namespace="lists")),
     path("conversations/", include("conversations.urls", namespace="conversations")),
     path("admin/", admin.site.urls),
-    path("sentry-debug/", trigger_error),
 ]
 
 # 내가 개발모드라면(Not production)
