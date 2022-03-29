@@ -89,7 +89,7 @@ WSGI_APPLICATION = "config.wsgi.application"
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 
-if DEBUG if False:
+if DEBUG is False:
 
     DATABASES = {
         "default": {
