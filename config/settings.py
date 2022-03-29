@@ -25,7 +25,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.environ.get("DJANGO_SECRET", "THfA2fEHnYx^P5@HQa@I0o")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = bool(os.environ.get("DEBUG"))
+DEBUG = False
 
 ALLOWED_HOSTS = [".elasticbeanstalk.com", "127.0.0.1"]
 
@@ -96,7 +96,7 @@ if DEBUG:
 
     DATABASES = {
         "default": {
-            "ENGINE": "django.db.backends.sqlite322",
+            "ENGINE": "django.db.backends.sqlite3",
             "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
         }
     }
