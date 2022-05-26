@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, reverse
+from django.shortcuts import redirect, reverse
 from django.views.generic import TemplateView
 from rooms import models as room_models
 from . import models
